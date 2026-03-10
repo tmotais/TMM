@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Thibault Motais Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8A96E; --bg: #080808; --bg2: #0f0f0f; --bg3: #141414;
+  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --red: #c0392b; --green: #27ae60;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; min-height: 100vh; }
+
+/* LOGIN */
+#loginScreen {
+  display: flex; align-items: center; justify-content: center; min-height: 100vh;
+}
+.login-box {
+  background: var(--bg2); border: 1px solid var(--border); padding: 48px;
+  width: 100%; max-width: 360px;
+}
+.login-logo {
+  font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); text-align: center; margin-bottom: 32px;
+}
+.login-box input {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); padding: 12px 14px; font-family: 'Outfit', sans-serif;
+  font-size: 14px; outline: none; margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+.login-box input:focus { border-color: var(--gold); }
+.login-box button {
+  width: 100%; background: var(--gold); border: none; color: #000;
+  padding: 12px; font-family: 'Outfit', sans-serif; font-size: 11px;
+  letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+  cursor: pointer; transition: background 0.2s;
+}
+.login-box button:hover { background: #dabb80; }
+.login-error { color: var(--red); font-size: 12px; margin-top: 8px; text-align: center; }
+
+/* ADMIN */
+#adminScreen { display: none; }
+.admin-header {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 10;
+}
+.admin-logo { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.admin-nav { display: flex; gap: 4px; }
+.admin-tab {
+  background: none; border: none; cursor: pointer; font-family: 'Outfit', sans-serif;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); padding: 8px 16px; transition: color 0.2s;
+  border-bottom: 2px solid transparent;
+}
+.admin-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.admin-tab:hover:not(.active) { color: var(--text); }
+.logout-btn {
+  background: none; border: 1px solid var(--border); cursor: pointer;
+  font-family: 'Outfit', sans-serif; font-size: 10px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--muted); padding: 6px 14px;
+  transition: all 0.2s;
+}
+.logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+.admin-content { padding: 32px; max-width: 1000px; margin: 0 auto; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+.panel-title {
+  font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Fields */
+.field-group { margin-bottom: 20px; }
+.field-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: block; }
+.field-group input, .field-group textarea {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); padding: 10px 12px; font-family: 'Outfit', sans-serif;
+  font-size: 13px; outline: none; transition: border-color 0.2s;
+}
+.field-group input:focus, .field-group textarea:focus { border-color: var(--gold); }
+.field-group textarea { min-height: 80px; resize: vertical; }
+
+.fields-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media(max-width:640px) { .fields-2col { grid-template-columns: 1fr; } }
+
+.save-btn {
+  background: var(--gold); border: none; color: #000;
+  padding: 10px 28px; font-family: 'Outfit', sans-serif;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 8px;
+}
+.save-btn:hover { background: #dabb80; }
+.save-status { font-size: 12px; color: var(--green); margin-left: 12px; opacity: 0; transition: opacity 0.3s; }
+.save-status.show { opacity: 1; }
+
+/* Testimonials */
+.testimonial-editor {
+  background: var(--bg2); border: 1px solid var(--border); padding: 20px; margin-bottom: 12px;
+}
+.testimonial-num { font-size: 10px; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; }
+
+/* Galleries */
+.gallery-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.gallery-item {
+  background: var(--bg2); border: 1px solid var(--border); padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.gallery-item input {
+  background: var(--bg3); border: 1px solid var(--border); color: var(--text);
+  padding: 6px 10px; font-family: 'Outfit', sans-serif; font-size: 12px;
+  outline: none; flex: 1; transition: border-color 0.2s;
+}
+.gallery-item input:focus { border-color: var(--gold); }
+.gallery-item input.url { flex: 2; }
+.del-btn {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 6px 10px; cursor: pointer; font-size: 12px; transition: all 0.2s;
+  font-family: 'Outfit', sans-serif;
+}
+.del-btn:hover { border-color: var(--red); color: var(--red); }
+.add-btn {
+  background: none; border: 1px solid var(--border); color: var(--text);
+  padding: 8px 20px; cursor: pointer; font-size: 10px;
+  letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s;
+  font-family: 'Outfit', sans-serif;
+}
+.add-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--bg2); border: 1px solid var(--gold);
+  padding: 14px 24px; font-size: 13px; color: var(--gold);
+  transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 1000;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">TMM Admin</div>
+    <input type="password" id="passwordInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')login()">
+    <button onclick="login()">Accéder</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminScreen">
+  <div class="admin-header">
+    <div class="admin-logo">TMM Admin</div>
+    <div class="admin-nav">
+      <button class="admin-tab active" onclick="showPanel('content')">Contenu</button>
+      <button class="admin-tab" onclick="showPanel('galleries')">Galeries</button>
+      <button class="admin-tab" onclick="showPanel('pending')" id="pendingTab">En attente <span id="pendingBadge" style="display:none;background:var(--gold);color:var(--bg);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;"></span></button>
+    </div>
+    <button class="logout-btn" onclick="logout()">Déconnexion</button>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- CONTENT PANEL -->
+    <div class="panel active" id="panel-content">
+      <div class="panel-title">Contenu du site</div>
+
+      <div style="margin-bottom:32px">
+        <div style="font-size:11px;color:var(--gold);margin-bottom:16px;letter-spacing:0.15em;text-transform:uppercase">Hero</div>
+        <div class="fields-2col">
+          <div class="field-group">
+            <label class="field-label">Titre FR</label>
+            <input type="text" id="heroTitleFr">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Titre EN</label>
+            <input type="text" id="heroTitleEn">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Sous-titre FR</label>
+            <input type="text" id="heroSubFr">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Sous-titre EN</label>
+            <input type="text" id="heroSubEn">
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:32px">
+        <div style="font-size:11px;color:var(--gold);margin-bottom:16px;letter-spacing:0.15em;text-transform:uppercase">À propos</div>
+        <div class="fields-2col">
+          <div class="field-group">
+            <label class="field-label">Paragraphe 1 FR</label>
+            <textarea id="aboutText1Fr"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Paragraphe 1 EN</label>
+            <textarea id="aboutText1En"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Paragraphe 2 FR</label>
+            <textarea id="aboutText2Fr"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Paragraphe 2 EN</label>
+            <textarea id="aboutText2En"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="saveContent()">Enregistrer</button>
+      <span class="save-status" id="contentStatus">Sauvegardé ✓</span>
+    </div>
+
+    <!-- GALLERIES PANEL -->
+    <div class="panel" id="panel-galleries">
+      <div class="panel-title">Galeries Pictime</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:24px;">Ajoutez vos galeries Pictime. Le lien s'affiche dans la section Galeries du site.</p>
+      <div class="gallery-list" id="galleryList"></div>
+      <button class="add-btn" onclick="addGallery()">+ Ajouter une galerie</button>
+      <br><br>
+      <button class="save-btn" onclick="saveGalleries()">Enregistrer</button>
+      <span class="save-status" id="galleriesStatus">Sauvegardé ✓</span>
+    </div>
+
+    <!-- PENDING TESTIMONIALS PANEL -->
+    <div class="panel" id="panel-pending">
+      <div class="panel-title">Témoignages en attente</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:24px;">Validez ou refusez les témoignages soumis par vos clients.</p>
+      <div id="pendingList"><p style="color:var(--muted);font-size:13px;">Chargement...</p></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let token = localStorage.getItem('tmm-admin-token');
+let content = {}, galleries = [];
+
+async function api(action, method = 'GET', body = null) {
+  const opts = {
+    method,
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(`/api/admin?action=${action}`, opts);
+  return res.json();
+}
+
+async function login() {
+  const password = document.getElementById('passwordInput').value;
+  const res = await fetch('/api/admin?action=login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  });
+  const data = await res.json();
+  if (data.success) {
+    token = data.token;
+    localStorage.setItem('tmm-admin-token', token);
+    showAdmin();
+  } else {
+    document.getElementById('loginError').textContent = 'Mot de passe incorrect';
+  }
+}
+
+async function showAdmin() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminScreen').style.display = 'block';
+  await loadAll();
+}
+
+async function loadAll() {
+  content = await api('get-content');
+  galleries = await api('get-galleries');
+  renderContent();
+  renderGalleries();
+  loadPending();
+}
+
+async function loadPending() {
+  const pending = await api('get-pending-testimonials');
+  const badge = document.getElementById('pendingBadge');
+  if (pending && pending.length > 0) {
+    badge.style.display = 'inline';
+    badge.textContent = pending.length;
+  } else {
+    badge.style.display = 'none';
+  }
+  const el = document.getElementById('pendingList');
+  let html = '';
+
+  if (!pending || !pending.length) {
+    html += '<p style="color:var(--muted);font-size:13px;margin-bottom:32px;">Aucun témoignage en attente.</p>';
+  } else {
+    html += pending.map(t => `
+      <div style="border:1px solid var(--border);padding:24px;margin-bottom:12px;background:var(--bg3);">
+        <div style="font-size:10px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">${new Date(t.submittedAt).toLocaleDateString('fr-CA', {year:'numeric',month:'long',day:'numeric'})}</div>
+        <div style="font-weight:500;font-size:14px;color:var(--text-bright);margin-bottom:2px;">${t.name}</div>
+        ${t.role ? `<div style="font-size:12px;color:var(--muted);margin-bottom:12px;">${t.role}</div>` : '<div style="margin-bottom:12px;"></div>'}
+        ${t.textFr ? `<div style="font-size:13px;color:var(--text);margin-bottom:6px;font-style:italic;"><span style="color:var(--muted);font-style:normal;font-size:11px;">FR</span> ${t.textFr}</div>` : ''}
+        ${t.textEn ? `<div style="font-size:13px;color:var(--text);margin-bottom:12px;font-style:italic;"><span style="color:var(--muted);font-style:normal;font-size:11px;">EN</span> ${t.textEn}</div>` : ''}
+        <div style="display:flex;gap:10px;margin-top:16px;">
+          <button onclick="approveTestimonial('${t.id}')" style="background:var(--gold);color:var(--bg);border:none;padding:10px 20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;">✓ Publier</button>
+          <button onclick="rejectTestimonial('${t.id}')" style="background:transparent;border:1px solid #c05050;color:#c05050;padding:10px 20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;">✕ Refuser</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Published testimonials section
+  const published = content?.testimonials || [];
+  html += `<div style="border-top:1px solid var(--border);margin-top:24px;padding-top:28px;">
+    <div style="font-size:11px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px;">Publiés (${published.length})</div>`;
+  if (!published.length) {
+    html += '<p style="color:var(--muted);font-size:13px;">Aucun témoignage publié.</p>';
+  } else {
+    html += published.map((t, i) => `
+      <div style="border:1px solid var(--border);padding:20px 24px;margin-bottom:8px;background:var(--bg2);display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+        <div style="flex:1;">
+          <div style="font-weight:500;font-size:13px;color:var(--text-bright);">${t.name}${t.role ? `<span style="font-weight:400;color:var(--muted);font-size:12px;margin-left:8px;">${t.role}</span>` : ''}</div>
+          ${t.textFr ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic;">${t.textFr.substring(0,100)}${t.textFr.length > 100 ? '…' : ''}</div>` : ''}
+        </div>
+        <button onclick="removePublishedTestimonial(${i})" style="background:transparent;border:1px solid #c05050;color:#c05050;padding:6px 14px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;">× Supprimer</button>
+      </div>
+    `).join('');
+  }
+  html += '</div>';
+
+  el.innerHTML = html;
+}
+
+async function approveTestimonial(id) {
+  await api('approve-testimonial', 'POST', { id });
+  showToast('Témoignage publié ✓');
+  loadPending();
+  content = await api('get-content');
+  renderContent();
+}
+
+async function rejectTestimonial(id) {
+  if (!confirm('Refuser ce témoignage ?')) return;
+  await api('reject-testimonial', 'POST', { id });
+  showToast('Témoignage refusé');
+  loadPending();
+}
+
+function renderContent() {
+  document.getElementById('heroTitleFr').value = content?.hero?.fr?.title || '';
+  document.getElementById('heroTitleEn').value = content?.hero?.en?.title || '';
+  document.getElementById('heroSubFr').value = content?.hero?.fr?.subtitle || '';
+  document.getElementById('heroSubEn').value = content?.hero?.en?.subtitle || '';
+  document.getElementById('aboutText1Fr').value = content?.about?.fr?.text1 || '';
+  document.getElementById('aboutText1En').value = content?.about?.en?.text1 || '';
+  document.getElementById('aboutText2Fr').value = content?.about?.fr?.text2 || '';
+  document.getElementById('aboutText2En').value = content?.about?.en?.text2 || '';
+}
+
+async function removePublishedTestimonial(i) {
+  const name = content?.testimonials?.[i]?.name || `#${i + 1}`;
+  if (!confirm(`Supprimer le témoignage de "${name}" ?`)) return;
+  content.testimonials = (content.testimonials || []).filter((_, idx) => idx !== i);
+  await api('save-content', 'POST', content);
+  showToast('Témoignage supprimé ✓');
+  loadPending();
+}
+
+async function saveContent() {
+  const updated = {
+    hero: {
+      fr: { title: document.getElementById('heroTitleFr').value, subtitle: document.getElementById('heroSubFr').value },
+      en: { title: document.getElementById('heroTitleEn').value, subtitle: document.getElementById('heroSubEn').value },
+    },
+    about: {
+      fr: { text1: document.getElementById('aboutText1Fr').value, text2: document.getElementById('aboutText2Fr').value },
+      en: { text1: document.getElementById('aboutText1En').value, text2: document.getElementById('aboutText2En').value },
+    },
+    testimonials: content?.testimonials || [],
+  };
+  await api('save-content', 'POST', updated);
+  showStatus('contentStatus');
+  showToast('Contenu sauvegardé ✓');
+}
+
+function renderGalleries() {
+  const el = document.getElementById('galleryList');
+  el.innerHTML = galleries.map((g, i) => `
+    <div class="gallery-item" style="flex-wrap:wrap;gap:8px;">
+      <input type="text" placeholder="Nom client (ex: Marie Dupont)" value="${g.name || g.title || ''}" oninput="galleries[${i}].name=this.value" style="flex:1;min-width:140px;">
+      <input type="text" placeholder="Code accès (ex: DUPONT-2026)" value="${g.code || ''}" oninput="galleries[${i}].code=this.value.toUpperCase();this.value=this.value.toUpperCase()" style="max-width:160px;">
+      <input type="text" placeholder="Date (ex: 8 mars 2026)" value="${g.date || ''}" oninput="galleries[${i}].date=this.value" style="max-width:140px;">
+      <input type="text" class="url" placeholder="Lien Pictime privé" value="${g.url || ''}" oninput="galleries[${i}].url=this.value" style="flex:2;min-width:200px;">
+      <button class="del-btn" onclick="removeGallery(${i})">×</button>
+    </div>
+  `).join('');
+}
+
+function addGallery() {
+  galleries.push({ name: '', code: '', url: '', date: '' });
+  renderGalleries();
+}
+
+function removeGallery(i) {
+  galleries.splice(i, 1);
+  renderGalleries();
+}
+
+async function saveGalleries() {
+  await api('save-galleries', 'POST', galleries);
+  showStatus('galleriesStatus');
+  showToast('Galeries sauvegardées ✓');
+}
+
+
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'pending') loadPending();
+}
+
+function showStatus(id) {
+  const el = document.getElementById(id);
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function logout() {
+  localStorage.removeItem('tmm-admin-token');
+  token = null;
+  document.getElementById('adminScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+// Auto-login if token stored
+if (token) showAdmin();
+</script>
+</body>
+</html>

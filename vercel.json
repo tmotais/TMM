@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "portfolio.thibaultmotais.com" }],
+      "destination": "https://thibaultmotais.com/#portfolio",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/(.*)", "destination": "/admin/index.html" },
+    { "source": "/success", "destination": "/success.html" },
+    { "source": "/galeries", "destination": "/galeries.html" }
+  ]
+}

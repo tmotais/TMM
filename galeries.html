@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeries clients — Thibault Motais Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8A96E; --gold-dim: rgba(200,169,110,0.15); --gold-line: rgba(200,169,110,0.3);
+  --bg: #080808; --bg2: #0f0f0f; --bg3: #141414; --bg4: #1a1a1a;
+  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --muted2: #3a3a3a; --white: #f0ece2;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.7; min-height: 100vh; cursor: none; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
+.cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s; }
+.cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid var(--gold-line); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.15s ease; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-back { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+.nav-back:hover { color: var(--gold); }
+.nav-back::before { content: '←'; font-size: 14px; }
+@media(max-width:768px) { nav { padding: 20px 24px; } }
+
+/* PAGE */
+.page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 24px 80px; position: relative; z-index: 2; }
+.page-bg { position: fixed; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(200,169,110,0.04) 0%, transparent 70%); pointer-events: none; }
+
+/* HEADER */
+.page-header { text-align: center; margin-bottom: 64px; }
+.eyebrow { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+.eyebrow::before, .eyebrow::after { content: ''; width: 32px; height: 1px; background: var(--gold-line); display: block; }
+.page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 300; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
+.page-title em { font-style: italic; color: var(--gold); }
+.page-subtitle { font-size: 14px; color: var(--muted); max-width: 400px; margin: 0 auto; }
+
+/* CARD */
+.card { width: 100%; max-width: 480px; background: var(--bg2); border: 1px solid var(--border); padding: 48px; position: relative; }
+.card::before { content: ''; position: absolute; top: -1px; left: 32px; right: 32px; height: 1px; background: linear-gradient(to right, transparent, var(--gold-line), transparent); }
+
+/* FORM */
+.form-group { margin-bottom: 24px; }
+label { display: block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--white); font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 300; padding: 14px 16px; letter-spacing: 0.1em; outline: none; transition: border-color 0.2s; }
+input:focus { border-color: var(--gold-line); }
+input::placeholder { color: var(--muted2); letter-spacing: 0.05em; font-size: 13px; }
+.btn-submit { width: 100%; padding: 16px; background: var(--gold); color: var(--bg); font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 500; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 8px; }
+.btn-submit:hover { background: #dabb80; transform: translateY(-1px); }
+.btn-submit:active { transform: translateY(0); }
+
+/* MESSAGES */
+.msg { display: none; padding: 14px 16px; font-size: 13px; margin-top: 20px; text-align: center; letter-spacing: 0.05em; }
+.msg-error { background: rgba(180,60,60,0.1); border: 1px solid rgba(180,60,60,0.2); color: #e08080; }
+.msg-loading { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); }
+.msg.show { display: block; }
+
+/* RESULT */
+.result { display: none; text-align: center; animation: fadeUp 0.5s ease both; }
+.result.show { display: block; }
+.result-icon { width: 56px; height: 56px; border: 1px solid var(--gold-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+.result-icon svg { width: 24px; height: 24px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+.result-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--white); font-weight: 300; margin-bottom: 8px; }
+.result-date { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; }
+.result-divider { width: 40px; height: 1px; background: var(--gold-line); margin: 0 auto 32px; }
+.btn-gallery { display: inline-flex; align-items: center; gap: 12px; padding: 16px 40px; background: var(--gold); color: var(--bg); font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 500; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+.btn-gallery:hover { background: #dabb80; transform: translateY(-1px); }
+.btn-gallery svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.btn-retry { display: block; margin: 20px auto 0; background: none; border: none; font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); cursor: pointer; transition: color 0.2s; }
+.btn-retry:hover { color: var(--gold); }
+
+/* HINT */
+.hint { text-align: center; margin-top: 32px; font-size: 12px; color: var(--muted2); }
+.hint a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.2s, border-color 0.2s; }
+.hint a:hover { color: var(--gold); border-color: var(--gold-line); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.card { animation: fadeUp 0.6s ease both; }
+.page-header { animation: fadeUp 0.5s ease both; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Thibault Motais <span>Media</span></a>
+  <a href="/" class="nav-back">Retour au site</a>
+</nav>
+
+<div class="page-bg"></div>
+
+<main class="page">
+  <div class="page-header">
+    <div class="eyebrow">Espace client</div>
+    <h1 class="page-title">Votre <em>galerie</em> photo</h1>
+    <p class="page-subtitle">Entrez le code reçu par email pour accéder à vos photos.</p>
+  </div>
+
+  <div class="card" id="card-form">
+    <div class="form-group">
+      <label for="code">Code d'accès</label>
+      <input type="text" id="code" placeholder="Ex : DUPONT-2024" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    </div>
+    <button class="btn-submit" id="btn-access">Accéder à ma galerie</button>
+    <div class="msg msg-error" id="msg-error">Code introuvable. Vérifiez votre email de livraison.</div>
+    <div class="msg msg-loading" id="msg-loading">Recherche en cours...</div>
+  </div>
+
+  <div class="card result" id="card-result">
+    <div class="result-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </div>
+    <div class="result-name" id="result-name">Galerie retrouvée</div>
+    <div class="result-date" id="result-date"></div>
+    <div class="result-divider"></div>
+    <a href="#" class="btn-gallery" id="result-link" target="_blank">
+      Ouvrir ma galerie
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <button class="btn-retry" id="btn-retry">Entrer un autre code</button>
+  </div>
+
+  <p class="hint">Vous n'avez pas reçu de code ? <a href="/#contact">Contactez-moi</a></p>
+</main>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+});
+
+// Gallery lookup
+const API = '/api/admin';
+
+async function getToken() {
+  // Read-only access using admin token from session (stored after admin login)
+  // For client page, we use a public read endpoint via code lookup
+  return null;
+}
+
+document.getElementById('btn-access').addEventListener('click', lookup);
+document.getElementById('code').addEventListener('keydown', e => { if (e.key === 'Enter') lookup(); });
+
+async function lookup() {
+  const code = document.getElementById('code').value.trim().toUpperCase();
+  if (!code) { showError('Veuillez entrer votre code d\'accès.'); return; }
+
+  hideMessages();
+  document.getElementById('msg-loading').classList.add('show');
+  document.getElementById('btn-access').disabled = true;
+
+  try {
+    const res = await fetch(`/api/gallery?code=${encodeURIComponent(code)}`);
+    const data = await res.json();
+
+    document.getElementById('msg-loading').classList.remove('show');
+    document.getElementById('btn-access').disabled = false;
+
+    if (data.error || !data.url) {
+      showError('Code introuvable. Vérifiez votre email de livraison.');
+      return;
+    }
+
+    // Show result
+    document.getElementById('card-form').style.display = 'none';
+    document.getElementById('result-name').textContent = data.name || 'Votre galerie';
+    document.getElementById('result-date').textContent = data.date || '';
+    document.getElementById('result-link').href = data.url;
+    document.getElementById('card-result').classList.add('show');
+    document.querySelector('.hint').style.display = 'none';
+
+  } catch (err) {
+    document.getElementById('msg-loading').classList.remove('show');
+    document.getElementById('btn-access').disabled = false;
+    showError('Erreur de connexion. Réessayez dans un instant.');
+  }
+}
+
+document.getElementById('btn-retry').addEventListener('click', () => {
+  document.getElementById('card-result').classList.remove('show');
+  document.getElementById('card-form').style.display = 'block';
+  document.querySelector('.hint').style.display = 'block';
+  document.getElementById('code').value = '';
+  hideMessages();
+});
+
+function showError(msg) {
+  const el = document.getElementById('msg-error');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideMessages() {
+  document.getElementById('msg-error').classList.remove('show');
+  document.getElementById('msg-loading').classList.remove('show');
+}
+</script>
+</body>
+</html>
