@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Thibault Motais Media</title>
+<meta name="description" content="Conseils photo, coulisses de séances et actualités. Blog de Thibault Motais, photographe et vidéaste à Montréal.">
+<link rel="canonical" href="https://thibaultmotais.com/blog">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thibaultmotais.com/blog">
+<meta property="og:title" content="Blog — Thibault Motais Media">
+<meta property="og:description" content="Conseils photo, coulisses de séances et actualités.">
+<meta property="og:image" content="https://thibaultmotais.com/images/portrait-solo.jpg">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8A96E; --gold-dim: rgba(200,169,110,0.15); --gold-line: rgba(200,169,110,0.3);
+  --bg: #080808; --bg2: #0f0f0f; --bg3: #141414; --bg4: #1a1a1a;
+  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --white: #f0ece2;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.7; }
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Nav */
+.blog-nav { padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.blog-nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+.blog-nav-logo span { color: var(--gold); }
+.blog-nav-links { display: flex; gap: 20px; align-items: center; }
+.blog-nav-links a { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.blog-nav-links a:hover { color: var(--gold); text-decoration: none; }
+.lang-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 4px 10px; font-size: 10px; letter-spacing: 0.15em; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+.lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Content */
+.blog-container { max-width: 900px; margin: 0 auto; padding: 60px 48px; }
+.blog-header { margin-bottom: 48px; }
+.blog-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.blog-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 300; color: var(--white); line-height: 1.2; }
+
+/* Grid */
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.blog-card { background: var(--bg3); border: 1px solid var(--border); transition: border-color 0.3s; text-decoration: none; display: block; }
+.blog-card:hover { border-color: var(--gold-line); text-decoration: none; }
+.blog-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.blog-card-body { padding: 20px; }
+.blog-card-date { font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+.blog-card-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--white); line-height: 1.3; margin-bottom: 8px; }
+.blog-card-excerpt { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+.blog-empty { color: var(--muted); font-size: 14px; text-align: center; padding: 60px 0; }
+
+@media(max-width:640px) {
+  .blog-nav { padding: 16px 20px; }
+  .blog-container { padding: 40px 20px; }
+  .blog-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="blog-nav">
+  <a href="/" class="blog-nav-logo">Thibault Motais <span>Media</span></a>
+  <div class="blog-nav-links">
+    <a href="/#portfolio">Portfolio</a>
+    <a href="/#pricing"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
+    <a href="/#contact">Contact</a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+  </div>
+</nav>
+
+<div class="blog-container">
+  <div class="blog-header">
+    <div class="blog-eyebrow">Blog</div>
+    <h1 class="blog-title"><span data-lang="fr">Coulisses & conseils</span><span data-lang="en">Behind the scenes & tips</span></h1>
+  </div>
+  <div class="blog-grid" id="blogGrid">
+    <div class="blog-empty"><span data-lang="fr">Chargement...</span><span data-lang="en">Loading...</span></div>
+  </div>
+</div>
+
+<script>
+let currentLang = localStorage.getItem('tmm-lang') || 'fr';
+
+function applyLang() {
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.style.display = el.dataset.lang === currentLang ? '' : 'none';
+  });
+  document.getElementById('langBtn').textContent = currentLang === 'fr' ? 'EN' : 'FR';
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'fr' ? 'en' : 'fr';
+  localStorage.setItem('tmm-lang', currentLang);
+  applyLang();
+  renderPosts();
+}
+
+let posts = [];
+
+async function loadPosts() {
+  try {
+    const res = await fetch('/api/blog');
+    posts = await res.json();
+  } catch {
+    posts = [];
+  }
+  renderPosts();
+}
+
+function renderPosts() {
+  const grid = document.getElementById('blogGrid');
+  if (!posts.length) {
+    grid.innerHTML = `<div class="blog-empty"><span data-lang="fr">Aucun article pour le moment.</span><span data-lang="en">No articles yet.</span></div>`;
+    applyLang();
+    return;
+  }
+  grid.innerHTML = posts.map(p => {
+    const title = currentLang === 'en' && p.titleEn ? p.titleEn : p.titleFr;
+    const excerpt = currentLang === 'en' && p.excerptEn ? p.excerptEn : p.excerptFr;
+    const date = new Date(p.publishedAt).toLocaleDateString(currentLang === 'fr' ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+    return `
+      <a href="/blog/${p.slug}" class="blog-card">
+        ${p.coverImage ? `<img src="${p.coverImage}" alt="${title}" class="blog-card-img" loading="lazy">` : ''}
+        <div class="blog-card-body">
+          <div class="blog-card-date">${date}</div>
+          <div class="blog-card-title">${title}</div>
+          <div class="blog-card-excerpt">${excerpt}</div>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+applyLang();
+loadPosts();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

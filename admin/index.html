@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin — Thibault Motais Media</title>
+<meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -164,6 +165,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
       <button class="admin-tab active" onclick="showPanel('content')">Contenu</button>
       <button class="admin-tab" onclick="showPanel('galleries')">Galeries</button>
       <button class="admin-tab" onclick="showPanel('pending')" id="pendingTab">En attente <span id="pendingBadge" style="display:none;background:var(--gold);color:var(--bg);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;"></span></button>
+      <button class="admin-tab" onclick="showPanel('blog')">Blog</button>
     </div>
     <button class="logout-btn" onclick="logout()">Déconnexion</button>
   </div>
@@ -240,6 +242,58 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
       <div id="pendingList"><p style="color:var(--muted);font-size:13px;">Chargement...</p></div>
     </div>
 
+    <!-- BLOG PANEL -->
+    <div class="panel" id="panel-blog">
+      <div class="panel-title">Blog</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:24px;">Gérez vos articles de blog. Les articles publiés apparaissent sur <a href="/blog" style="color:var(--gold);">/blog</a>.</p>
+
+      <div id="blogEditor" style="display:none;margin-bottom:32px;">
+        <div style="font-size:11px;color:var(--gold);margin-bottom:16px;letter-spacing:0.15em;text-transform:uppercase;" id="blogEditorTitle">Nouvel article</div>
+        <div class="fields-2col" style="margin-bottom:12px;">
+          <div class="field-group">
+            <label class="field-label">Slug (URL)</label>
+            <input type="text" id="blogSlug" placeholder="mon-article">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Image couverture (chemin)</label>
+            <input type="text" id="blogCover" placeholder="/images/portrait-solo.jpg">
+          </div>
+        </div>
+        <div class="fields-2col" style="margin-bottom:12px;">
+          <div class="field-group">
+            <label class="field-label">Titre FR</label>
+            <input type="text" id="blogTitleFr">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Titre EN</label>
+            <input type="text" id="blogTitleEn">
+          </div>
+        </div>
+        <div class="fields-2col" style="margin-bottom:12px;">
+          <div class="field-group">
+            <label class="field-label">Contenu FR (HTML)</label>
+            <textarea id="blogContentFr" style="min-height:200px;"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Contenu EN (HTML)</label>
+            <textarea id="blogContentEn" style="min-height:200px;"></textarea>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="blogPublished" style="accent-color:var(--gold);"> Publié
+          </label>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="save-btn" onclick="saveBlogPost()">Enregistrer</button>
+          <button class="add-btn" onclick="cancelBlogEdit()">Annuler</button>
+        </div>
+      </div>
+
+      <button class="add-btn" id="blogNewBtn" onclick="newBlogPost()">+ Nouvel article</button>
+      <div id="blogList" style="margin-top:20px;"><p style="color:var(--muted);font-size:13px;">Chargement...</p></div>
+    </div>
+
   </div>
 </div>
 
@@ -247,7 +301,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 
 <script>
 let token = localStorage.getItem('tmm-admin-token');
-let content = {}, galleries = [];
+let content = {}, galleries = [], blogPosts = [], editingPostId = null;
 
 async function api(action, method = 'GET', body = null) {
   const opts = {
@@ -288,6 +342,7 @@ async function loadAll() {
   renderContent();
   renderGalleries();
   loadPending();
+  loadBlogPosts();
 }
 
 async function loadPending() {
@@ -423,6 +478,104 @@ async function saveGalleries() {
   showToast('Galeries sauvegardées ✓');
 }
 
+
+// Blog
+async function loadBlogPosts() {
+  blogPosts = await api('get-blog-posts');
+  if (!Array.isArray(blogPosts)) blogPosts = [];
+  renderBlogList();
+}
+
+function renderBlogList() {
+  const el = document.getElementById('blogList');
+  if (!blogPosts.length) {
+    el.innerHTML = '<p style="color:var(--muted);font-size:13px;">Aucun article.</p>';
+    return;
+  }
+  el.innerHTML = blogPosts.sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0)).map(p => `
+    <div style="border:1px solid var(--border);padding:16px 20px;margin-bottom:8px;background:var(--bg2);display:flex;justify-content:space-between;align-items:center;gap:16px;">
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <span style="font-weight:500;font-size:14px;">${p.titleFr || p.titleEn || 'Sans titre'}</span>
+          <span style="font-size:10px;padding:2px 8px;border-radius:10px;${p.published ? 'background:var(--green);color:#fff;' : 'background:var(--border);color:var(--muted);'}">${p.published ? 'Publié' : 'Brouillon'}</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);">/${p.slug || '—'} · ${p.publishedAt ? new Date(p.publishedAt).toLocaleDateString('fr-CA') : 'Pas de date'}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0;">
+        <button class="add-btn" onclick="editBlogPost('${p.id}')" style="padding:6px 14px;">Éditer</button>
+        <button class="del-btn" onclick="deleteBlogPost('${p.id}')">×</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function newBlogPost() {
+  editingPostId = null;
+  document.getElementById('blogEditorTitle').textContent = 'Nouvel article';
+  document.getElementById('blogSlug').value = '';
+  document.getElementById('blogCover').value = '';
+  document.getElementById('blogTitleFr').value = '';
+  document.getElementById('blogTitleEn').value = '';
+  document.getElementById('blogContentFr').value = '';
+  document.getElementById('blogContentEn').value = '';
+  document.getElementById('blogPublished').checked = false;
+  document.getElementById('blogEditor').style.display = 'block';
+  document.getElementById('blogNewBtn').style.display = 'none';
+}
+
+function editBlogPost(id) {
+  const post = blogPosts.find(p => p.id === id);
+  if (!post) return;
+  editingPostId = id;
+  document.getElementById('blogEditorTitle').textContent = 'Modifier l\'article';
+  document.getElementById('blogSlug').value = post.slug || '';
+  document.getElementById('blogCover').value = post.coverImage || '';
+  document.getElementById('blogTitleFr').value = post.titleFr || '';
+  document.getElementById('blogTitleEn').value = post.titleEn || '';
+  document.getElementById('blogContentFr').value = post.contentFr || '';
+  document.getElementById('blogContentEn').value = post.contentEn || '';
+  document.getElementById('blogPublished').checked = !!post.published;
+  document.getElementById('blogEditor').style.display = 'block';
+  document.getElementById('blogNewBtn').style.display = 'none';
+}
+
+function cancelBlogEdit() {
+  document.getElementById('blogEditor').style.display = 'none';
+  document.getElementById('blogNewBtn').style.display = '';
+  editingPostId = null;
+}
+
+async function saveBlogPost() {
+  const post = {
+    id: editingPostId || undefined,
+    slug: document.getElementById('blogSlug').value.trim(),
+    titleFr: document.getElementById('blogTitleFr').value.trim(),
+    titleEn: document.getElementById('blogTitleEn').value.trim(),
+    contentFr: document.getElementById('blogContentFr').value,
+    contentEn: document.getElementById('blogContentEn').value,
+    coverImage: document.getElementById('blogCover').value.trim(),
+    published: document.getElementById('blogPublished').checked,
+    publishedAt: editingPostId
+      ? (blogPosts.find(p => p.id === editingPostId)?.publishedAt || new Date().toISOString())
+      : new Date().toISOString(),
+  };
+  if (!post.slug || !post.titleFr) {
+    showToast('Slug et titre FR requis');
+    return;
+  }
+  await api('save-blog-post', 'POST', post);
+  showToast('Article sauvegardé ✓');
+  cancelBlogEdit();
+  await loadBlogPosts();
+}
+
+async function deleteBlogPost(id) {
+  const post = blogPosts.find(p => p.id === id);
+  if (!confirm(`Supprimer "${post?.titleFr || 'cet article'}" ?`)) return;
+  await api('delete-blog-post', 'POST', { id });
+  showToast('Article supprimé');
+  await loadBlogPosts();
+}
 
 function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));

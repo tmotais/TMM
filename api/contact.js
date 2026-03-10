@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { firstName, lastName, email, projectType, message } = req.body;
+  const { firstName, lastName, email, projectType, selectedPackage, preferredDate, message } = req.body;
 
   if (!firstName || !email || !message) {
     return res.status(400).json({ error: 'Champs requis manquants' });
@@ -19,6 +19,8 @@ export default async function handler(req, res) {
       <p><strong style="color:#C8A96E;">Nom :</strong> ${firstName} ${lastName}</p>
       <p><strong style="color:#C8A96E;">Email :</strong> <a href="mailto:${email}" style="color:#d4d0c8;">${email}</a></p>
       <p><strong style="color:#C8A96E;">Projet :</strong> ${projectType || 'Non spécifié'}</p>
+      ${selectedPackage ? `<p><strong style="color:#C8A96E;">Forfait :</strong> ${selectedPackage}</p>` : ''}
+      ${preferredDate ? `<p><strong style="color:#C8A96E;">Date souhaitée :</strong> ${preferredDate}</p>` : ''}
       <hr style="border:none;border-top:1px solid #232323;margin:20px 0;">
       <p><strong style="color:#C8A96E;">Message :</strong></p>
       <p style="line-height:1.8;">${message.replace(/\n/g, '<br>')}</p>

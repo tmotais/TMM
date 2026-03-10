@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thibault Motais — Photographe & Vidéaste | Montréal</title>
 <meta name="description" content="Photographe et vidéaste professionnel basé à Montréal. Portraits, événements, sport, contenu corporatif.">
+<link rel="canonical" href="https://thibaultmotais.com">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thibaultmotais.com">
+<meta property="og:title" content="Thibault Motais — Photographe & Vidéaste | Montréal">
+<meta property="og:description" content="Photographe et vidéaste professionnel basé à Montréal. Portraits, événements, sport, contenu corporatif.">
+<meta property="og:image" content="https://thibaultmotais.com/images/portrait-solo.jpg">
+<meta property="og:locale" content="fr_CA">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Thibault Motais — Photographe & Vidéaste | Montréal">
+<meta name="twitter:description" content="Photographe et vidéaste professionnel basé à Montréal. Portraits, événements, sport, contenu corporatif.">
+<meta name="twitter:image" content="https://thibaultmotais.com/images/portrait-solo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -211,9 +224,54 @@ body.lang-en [data-lang="en"] { display: block; }
 .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg2); border: 1px solid var(--gold); padding: 14px 24px; font-size: 13px; color: var(--gold); transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 1000; }
 .toast.show { transform: translateY(0); opacity: 1; }
 
+/* FAQ */
+.faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1px; }
+.faq-item { background: var(--bg3); border: 1px solid var(--border); transition: border-color 0.3s; }
+.faq-item[open] { border-color: var(--gold-line); }
+.faq-item summary { padding: 20px 24px; font-size: 15px; font-weight: 400; color: var(--white); cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; gap: 16px; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: '+'; color: var(--gold); font-size: 20px; font-weight: 300; transition: transform 0.3s; flex-shrink: 0; }
+.faq-item[open] summary::after { content: '−'; }
+.faq-item summary:hover { color: var(--gold); }
+.faq-answer { padding: 0 24px 20px; color: var(--text); font-size: 14px; line-height: 1.8; }
+
 @keyframes heroFadeIn { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
 @keyframes scrollBob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "additionalType": "https://schema.org/Photographer",
+  "name": "Thibault Motais Media",
+  "url": "https://thibaultmotais.com",
+  "image": "https://thibaultmotais.com/images/portrait-solo.jpg",
+  "description": "Photographe et vidéaste professionnel basé à Montréal. Portraits, événements, sport, contenu corporatif.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Montréal",
+    "addressRegion": "QC",
+    "addressCountry": "CA"
+  },
+  "email": "thibaultmotaismedia@gmail.com",
+  "telephone": "+1-438-350-3547",
+  "priceRange": "$$",
+  "areaServed": {
+    "@type": "City",
+    "name": "Montréal"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Services photo & vidéo",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Portrait solo", "description": "Séance portrait individuelle" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Photographie événementielle", "description": "Couverture photo d'événements corporatifs et privés" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Photographie sportive", "description": "Couverture photo de compétitions et événements sportifs" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Vidéographie corporative", "description": "Vidéo corporate, reels et témoignages clients" } }
+    ]
+  }
+}
+</script>
 </head>
 <body>
 
@@ -229,6 +287,7 @@ body.lang-en [data-lang="en"] { display: block; }
     <a href="#pricing"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
     <a href="#galleries"><span data-lang="fr">Galeries</span><span data-lang="en">Galleries</span></a>
     <a href="#contact">Contact</a>
+    <a href="/blog">Blog</a>
     <div class="nav-lang">
       <button class="active" onclick="setLang('fr')" id="btnFr">FR</button>
       <button onclick="setLang('en')" id="btnEn">EN</button>
@@ -298,22 +357,22 @@ body.lang-en [data-lang="en"] { display: block; }
       <button class="tab-btn" onclick="setTab('nature')" data-tab="nature"><span data-lang="fr">Nature</span><span data-lang="en">Nature</span></button>
     </div>
     <div class="portfolio-grid">
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-solo.jpg" alt="Portrait solo" loading="lazy"><div class="portfolio-overlay"><span>Portrait solo</span></div></div>
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-couple.jpg" alt="Headshot Pro" loading="lazy"><div class="portfolio-overlay"><span>Headshot Pro</span></div></div>
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/headshot-premium.jpg" alt="Headshot Premium" loading="lazy"><div class="portfolio-overlay"><span>Headshot Premium</span></div></div>
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-corporate.jpg" alt="Corporate" loading="lazy"><div class="portfolio-overlay"><span>Corporate</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-gala.jpg" alt="Gala" loading="lazy"><div class="portfolio-overlay"><span>Gala</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-conference.jpg" alt="Conférence" loading="lazy"><div class="portfolio-overlay"><span>Conférence</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-5a7.jpg" alt="5 à 7" loading="lazy"><div class="portfolio-overlay"><span>5 à 7</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-journee.jpg" alt="Journée" loading="lazy"><div class="portfolio-overlay"><span>Journée</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/sport-escalade.jpg" alt="Escalade" loading="lazy"><div class="portfolio-overlay"><span>Escalade</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-conference.jpg" alt="Événement" loading="lazy"><div class="portfolio-overlay"><span>Ironman</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-5a7.jpg" alt="Événement" loading="lazy"><div class="portfolio-overlay"><span>Marathon</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-journee.jpg" alt="Événement" loading="lazy"><div class="portfolio-overlay"><span>Action</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-paysage.jpg" alt="Paysage" loading="lazy"><div class="portfolio-overlay"><span>Paysage</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-faune.jpg" alt="Wildlife" loading="lazy"><div class="portfolio-overlay"><span>Wildlife</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-lifestyle.jpg" alt="Lifestyle" loading="lazy"><div class="portfolio-overlay"><span>Lifestyle</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-moto.jpg" alt="Moto" loading="lazy"><div class="portfolio-overlay"><span>Moto</span></div></div>
+      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-solo.jpg" alt="Portrait solo professionnel Montréal" loading="lazy"><div class="portfolio-overlay"><span>Portrait solo</span></div></div>
+      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-couple.jpg" alt="Headshot professionnel couple Montréal" loading="lazy"><div class="portfolio-overlay"><span>Headshot Pro</span></div></div>
+      <div class="portfolio-item active" data-cat="portraits"><img src="/images/headshot-premium.jpg" alt="Headshot premium photographe professionnel" loading="lazy"><div class="portfolio-overlay"><span>Headshot Premium</span></div></div>
+      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-corporate.jpg" alt="Portrait corporate entreprise Montréal" loading="lazy"><div class="portfolio-overlay"><span>Corporate</span></div></div>
+      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-gala.jpg" alt="Photographe gala événement Montréal" loading="lazy"><div class="portfolio-overlay"><span>Gala</span></div></div>
+      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-conference.jpg" alt="Photographie conférence corporative Montréal" loading="lazy"><div class="portfolio-overlay"><span>Conférence</span></div></div>
+      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-5a7.jpg" alt="Photographie 5 à 7 corporatif Montréal" loading="lazy"><div class="portfolio-overlay"><span>5 à 7</span></div></div>
+      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-journee.jpg" alt="Couverture photo journée événement" loading="lazy"><div class="portfolio-overlay"><span>Journée</span></div></div>
+      <div class="portfolio-item" data-cat="sport"><img src="/images/sport-escalade.jpg" alt="Photographie sportive escalade" loading="lazy"><div class="portfolio-overlay"><span>Escalade</span></div></div>
+      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-conference.jpg" alt="Photographie sportive Ironman Montréal" loading="lazy"><div class="portfolio-overlay"><span>Ironman</span></div></div>
+      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-5a7.jpg" alt="Photographie marathon course à pied" loading="lazy"><div class="portfolio-overlay"><span>Marathon</span></div></div>
+      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-journee.jpg" alt="Photographie sportive action" loading="lazy"><div class="portfolio-overlay"><span>Action</span></div></div>
+      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-paysage.jpg" alt="Photographie paysage nature Québec" loading="lazy"><div class="portfolio-overlay"><span>Paysage</span></div></div>
+      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-faune.jpg" alt="Photographie faune sauvage wildlife" loading="lazy"><div class="portfolio-overlay"><span>Wildlife</span></div></div>
+      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-lifestyle.jpg" alt="Photographie lifestyle nature extérieur" loading="lazy"><div class="portfolio-overlay"><span>Lifestyle</span></div></div>
+      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-moto.jpg" alt="Photographie moto lifestyle Montréal" loading="lazy"><div class="portfolio-overlay"><span>Moto</span></div></div>
     </div>
   </div>
 </section>
@@ -379,6 +438,42 @@ body.lang-en [data-lang="en"] { display: block; }
         <div class="inclus-item"><span data-lang="fr">Retouche professionnelle incluse</span><span data-lang="en">Professional editing included</span></div>
         <div class="inclus-item"><span data-lang="fr">Acompte 50% — solde à la livraison</span><span data-lang="en">50% deposit — balance on delivery</span></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">FAQ</span>
+      <h2 class="section-title"><span data-lang="fr">Questions<br><em>fréquentes</em></span><span data-lang="en">Frequently<br><em>asked questions</em></span></h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary><span data-lang="fr">Comment se déroule une séance photo ?</span><span data-lang="en">How does a photo session work?</span></summary>
+        <div class="faq-answer"><span data-lang="fr">On commence par un échange pour comprendre vos besoins et votre vision. Le jour de la séance, je vous guide à travers les poses et les décors pour un résultat naturel et professionnel. Les photos retouchées sont livrées sous 48 à 72h via votre galerie Pictime privée.</span><span data-lang="en">We start with a conversation to understand your needs and vision. On the day of the shoot, I guide you through poses and settings for a natural, professional result. Edited photos are delivered within 48–72h via your private Pictime gallery.</span></div>
+      </details>
+      <details class="faq-item">
+        <summary><span data-lang="fr">Quel est le délai de livraison ?</span><span data-lang="en">What is the delivery time?</span></summary>
+        <div class="faq-answer"><span data-lang="fr">Les photos sont livrées sous 48 à 72h pour les portraits et événements courts. Pour les événements d'une journée complète ou les projets vidéo, comptez 5 à 7 jours ouvrables. L'option Express 48h est disponible pour un supplément de $100.</span><span data-lang="en">Photos are delivered within 48–72h for portraits and short events. For full-day events or video projects, expect 5–7 business days. An Express 48h option is available for an additional $100.</span></div>
+      </details>
+      <details class="faq-item">
+        <summary><span data-lang="fr">Comment accéder à ma galerie ?</span><span data-lang="en">How do I access my gallery?</span></summary>
+        <div class="faq-answer"><span data-lang="fr">Vous recevez un code d'accès unique par email. Rendez-vous sur la page <a href="/galeries" style="color:var(--gold)">Galeries</a>, entrez votre code, et vous serez redirigé vers votre galerie Pictime privée où vous pouvez visualiser, télécharger et partager vos photos en haute définition.</span><span data-lang="en">You'll receive a unique access code by email. Go to the <a href="/galeries" style="color:var(--gold)">Galleries</a> page, enter your code, and you'll be redirected to your private Pictime gallery where you can view, download and share your HD photos.</span></div>
+      </details>
+      <details class="faq-item">
+        <summary><span data-lang="fr">Proposez-vous des forfaits vidéo ?</span><span data-lang="en">Do you offer video packages?</span></summary>
+        <div class="faq-answer"><span data-lang="fr">Oui ! Je propose des reels mensuels pour les réseaux sociaux ($350–$900/mois), de la vidéo corporate ($1600) et des témoignages clients filmés ($600). Des forfaits combinés photo + vidéo sont aussi disponibles pour maximiser votre investissement.</span><span data-lang="en">Yes! I offer monthly reels for social media ($350–$900/mo), corporate video ($1600) and filmed client testimonials ($600). Combined photo + video packages are also available to maximize your investment.</span></div>
+      </details>
+      <details class="faq-item">
+        <summary><span data-lang="fr">Quels moyens de paiement acceptez-vous ?</span><span data-lang="en">What payment methods do you accept?</span></summary>
+        <div class="faq-answer"><span data-lang="fr">Virement Interac, virement bancaire et chèque. Un dépôt de 50% est requis pour confirmer la réservation, le solde étant dû le jour de la séance. Les prix affichés sont avant taxes (TPS/TVQ).</span><span data-lang="en">Interac e-Transfer, bank transfer and cheque. A 50% deposit is required to confirm the booking, with the balance due on the day of the session. Displayed prices are before tax (GST/QST).</span></div>
+      </details>
+      <details class="faq-item">
+        <summary><span data-lang="fr">Puis-je utiliser les photos commercialement ?</span><span data-lang="en">Can I use the photos commercially?</span></summary>
+        <div class="faq-answer"><span data-lang="fr">L'utilisation personnelle et sur les réseaux sociaux est incluse dans tous les forfaits. Pour un usage commercial (publicité, marketing, site web d'entreprise), l'option Droits commerciaux est disponible pour un supplément de $200.</span><span data-lang="en">Personal use and social media sharing are included in all packages. For commercial use (advertising, marketing, company website), the Commercial Rights option is available for an additional $200.</span></div>
+      </details>
     </div>
   </div>
 </section>
@@ -492,6 +587,32 @@ body.lang-en [data-lang="en"] { display: block; }
           </select>
         </div>
         <div class="form-group">
+          <label><span data-lang="fr">Forfait souhaité</span><span data-lang="en">Preferred package</span></label>
+          <select id="selectedPackage">
+            <option value="">— <span data-lang="fr">Optionnel</span><span data-lang="en">Optional</span> —</option>
+            <option>Portrait solo ($200–$550)</option>
+            <option>Événement 3h / Event 3h ($500)</option>
+            <option>Événement demi-journée / Half-day ($750)</option>
+            <option>Événement journée / Full day ($1200)</option>
+            <option>Sport demi-journée / Half-day ($450)</option>
+            <option>Sport journée / Full day ($850)</option>
+            <option>Sport tournoi / Tournament ($1500)</option>
+            <option>Reels mensuel / Monthly reels ($350–$900)</option>
+            <option>Vidéo corporate / Corporate video ($1600)</option>
+            <option>Témoignages clients / Client testimonials ($600)</option>
+            <option>Pack Essentiel Événement ($1000)</option>
+            <option>Pack PME Starter ($700/mo)</option>
+            <option>Pack PME Pro ($1200/mo)</option>
+            <option>Pack Sport Complet ($1600)</option>
+            <option>Pack Événement Premium ($2200)</option>
+            <option>Pack PME 360 ($1800/mo)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><span data-lang="fr">Date souhaitée</span><span data-lang="en">Preferred date</span></label>
+          <input type="date" id="preferredDate">
+        </div>
+        <div class="form-group">
           <label><span data-lang="fr">Message</span><span data-lang="en">Message</span></label>
           <textarea id="message" placeholder="..." required></textarea>
         </div>
@@ -516,6 +637,7 @@ body.lang-en [data-lang="en"] { display: block; }
     <a href="#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
     <a href="#portfolio">Portfolio</a>
     <a href="#contact">Contact</a>
+    <a href="/blog">Blog</a>
     <a href="/admin" style="color:var(--muted2);font-size:10px">Admin</a>
   </div>
 </footer>
@@ -696,6 +818,8 @@ document.getElementById('contactForm').addEventListener('submit', async e => {
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
         projectType: document.getElementById('projectType').value,
+        selectedPackage: document.getElementById('selectedPackage').value,
+        preferredDate: document.getElementById('preferredDate').value,
         message: document.getElementById('message').value,
       }),
     });
@@ -727,5 +851,6 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // Init
 loadSiteData();
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

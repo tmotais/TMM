@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Thibault Motais Media</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C8A96E; --gold-dim: rgba(200,169,110,0.15); --gold-line: rgba(200,169,110,0.3);
+  --bg: #080808; --bg2: #0f0f0f; --bg3: #141414;
+  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --white: #f0ece2;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.7; }
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Nav */
+.blog-nav { padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.blog-nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+.blog-nav-logo span { color: var(--gold); }
+.blog-nav-links { display: flex; gap: 20px; align-items: center; }
+.blog-nav-links a { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.blog-nav-links a:hover { color: var(--gold); text-decoration: none; }
+.lang-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 4px 10px; font-size: 10px; letter-spacing: 0.15em; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+.lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Article */
+.article-container { max-width: 720px; margin: 0 auto; padding: 60px 48px; }
+.article-back { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; display: inline-block; }
+.article-back:hover { color: var(--gold); text-decoration: none; }
+.article-date { font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 5vw, 44px); font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 32px; }
+.article-cover { width: 100%; aspect-ratio: 16/9; object-fit: cover; margin-bottom: 40px; display: block; }
+.article-content { font-size: 15px; line-height: 1.9; }
+.article-content p { margin-bottom: 1.4em; }
+.article-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; color: var(--white); margin: 2em 0 0.8em; }
+.article-content h3 { font-size: 16px; font-weight: 500; color: var(--white); margin: 1.5em 0 0.6em; }
+.article-content ul, .article-content ol { padding-left: 1.5em; margin-bottom: 1.4em; }
+.article-content li { margin-bottom: 0.5em; }
+.article-content img { max-width: 100%; margin: 1.5em 0; }
+.article-content blockquote { border-left: 2px solid var(--gold); padding-left: 20px; margin: 1.5em 0; font-style: italic; color: var(--muted); }
+
+.article-404 { text-align: center; padding: 80px 0; color: var(--muted); }
+
+@media(max-width:640px) {
+  .blog-nav { padding: 16px 20px; }
+  .article-container { padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="blog-nav">
+  <a href="/" class="blog-nav-logo">Thibault Motais <span>Media</span></a>
+  <div class="blog-nav-links">
+    <a href="/blog">Blog</a>
+    <a href="/#portfolio">Portfolio</a>
+    <a href="/#contact">Contact</a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+  </div>
+</nav>
+
+<div class="article-container">
+  <a href="/blog" class="article-back">← <span data-lang="fr">Retour au blog</span><span data-lang="en">Back to blog</span></a>
+  <div id="articleContent">
+    <div class="article-404"><span data-lang="fr">Chargement...</span><span data-lang="en">Loading...</span></div>
+  </div>
+</div>
+
+<script>
+let currentLang = localStorage.getItem('tmm-lang') || 'fr';
+
+function applyLang() {
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.style.display = el.dataset.lang === currentLang ? '' : 'none';
+  });
+  document.getElementById('langBtn').textContent = currentLang === 'fr' ? 'EN' : 'FR';
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'fr' ? 'en' : 'fr';
+  localStorage.setItem('tmm-lang', currentLang);
+  applyLang();
+  renderArticle();
+}
+
+let article = null;
+
+async function loadArticle() {
+  // Extract slug from URL path: /blog/my-slug
+  const path = window.location.pathname;
+  const slug = path.replace(/^\/blog\//, '').replace(/\/$/, '');
+  if (!slug) {
+    window.location.href = '/blog';
+    return;
+  }
+  try {
+    const res = await fetch(`/api/blog?slug=${encodeURIComponent(slug)}`);
+    if (!res.ok) throw new Error();
+    article = await res.json();
+  } catch {
+    article = null;
+  }
+  renderArticle();
+}
+
+function renderArticle() {
+  const el = document.getElementById('articleContent');
+  if (!article) {
+    el.innerHTML = `<div class="article-404"><span data-lang="fr">Article introuvable.</span><span data-lang="en">Article not found.</span></div>`;
+    applyLang();
+    return;
+  }
+  const title = currentLang === 'en' && article.titleEn ? article.titleEn : article.titleFr;
+  const content = currentLang === 'en' && article.contentEn ? article.contentEn : article.contentFr;
+  const date = new Date(article.publishedAt).toLocaleDateString(currentLang === 'fr' ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  document.title = `${title} — Thibault Motais Media`;
+
+  el.innerHTML = `
+    <div class="article-date">${date}</div>
+    <h1 class="article-title">${title}</h1>
+    ${article.coverImage ? `<img src="${article.coverImage}" alt="${title}" class="article-cover">` : ''}
+    <div class="article-content">${content}</div>
+  `;
+}
+
+applyLang();
+loadArticle();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

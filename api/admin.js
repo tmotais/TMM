@@ -73,6 +73,26 @@ export default async function handler(req, res) {
         await kvSet('testimonials-pending', pending.filter(t => t.id !== id));
         return res.json({ success: true });
       }
+      case 'get-blog-posts': return res.json(await kvGet('blog-posts') || []);
+      case 'save-blog-post': {
+        const posts = await kvGet('blog-posts') || [];
+        const post = req.body;
+        const idx = posts.findIndex(p => p.id === post.id);
+        if (idx >= 0) {
+          posts[idx] = post;
+        } else {
+          post.id = Date.now().toString();
+          posts.push(post);
+        }
+        await kvSet('blog-posts', posts);
+        return res.json({ success: true });
+      }
+      case 'delete-blog-post': {
+        const { id } = req.body;
+        const posts = await kvGet('blog-posts') || [];
+        await kvSet('blog-posts', posts.filter(p => p.id !== id));
+        return res.json({ success: true });
+      }
       default: return res.status(400).json({ error: 'Action inconnue' });
     }
   } catch (err) {
