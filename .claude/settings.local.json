@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --yes vercel --version)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(vercel --version)",
+      "Bash(where node)",
+      "Bash(node --version)",
+      "Bash(echo \"PATH: $PATH\")",
+      "Read(//c/Program Files/nodejs/**)",
+      "Read(//c/Users/thibaultmdn/Documents/TMM/.claude/worktrees/cranky-swanson/$LOCALAPPDATA/Programs/node/**)",
+      "Read(//c/Users/thibaultmdn/Documents/TMM/.claude/worktrees/cranky-swanson/$HOME/.nvm/**/**)",
+      "Bash(where.exe node)",
+      "Bash(\"/c/Program Files/nodejs/node.exe\" --version)",
+      "Bash(\"/mnt/c/Program Files/nodejs/node.exe\" --version)",
+      "Bash(cmd.exe /c \"where node\")",
+      "Bash(cmd.exe /c \"node --version\")"
+    ]
+  }
+}

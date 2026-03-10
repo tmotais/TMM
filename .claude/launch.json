@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vercel-dev",
+      "runtimeExecutable": "C:\\Users\\thibaultmdn\\AppData\\Local\\nvm\\v24.14.0\\node.exe",
+      "runtimeArgs": ["C:\\Users\\thibaultmdn\\AppData\\Roaming\\npm\\node_modules\\vercel\\dist\\vc.js", "dev", "--yes", "--listen", "3000"],
+      "port": 3000
+    }
+  ]
+}
