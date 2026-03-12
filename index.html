@@ -6,6 +6,7 @@
 <title>Thibault Motais — Photographe & Vidéaste | Montréal</title>
 <meta name="description" content="Photographe et vidéaste professionnel basé à Montréal. Portraits, événements, sport, contenu corporatif.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -548,25 +549,18 @@ function setTab(cat) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === cat));
   document.querySelectorAll('.portfolio-item').forEach(item => {
     item.classList.toggle('active', item.dataset.cat === cat);
-    if (item.dataset.cat === cat) item.style.gridColumn = '';
   });
-  const first = document.querySelector(`.portfolio-item.active[data-cat="${cat}"]`);
-  if (first) first.style.gridColumn = 'span 2';
 }
 
 // Load data from API
 async function loadSiteData() {
   try {
-    const [contentRes, galRes] = await Promise.all([
-      fetch('/api/content'),
-      fetch('/api/admin?action=get-galleries'),
-    ]);
-    const content = await contentRes.json();
-    const galleries = await galRes.json();
-    window._galleries = galleries;
+    const res = await fetch('/api/content');
+    const content = await res.json();
+    window._galleries = content?.galleries || [];
     window._testimonials = content?.testimonials || [];
     applyContent(content);
-    renderGalleries(galleries);
+    renderGalleries(content?.galleries || []);
     renderTestimonials(content?.testimonials || []);
     if (content?.portfolioPhotos?.length) {
       renderPortfolioPhotos(content.portfolioPhotos);

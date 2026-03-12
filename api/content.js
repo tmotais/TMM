@@ -17,17 +17,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    const [content, photos] = await Promise.all([
+    const [content, photos, galleries] = await Promise.all([
       kvGet('site-content'),
       kvGet('portfolio-photos'),
+      kvGet('galleries'),
     ]);
     const c = content || getDefaultContent();
     // Only expose public fields — never expose admin data
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
     return res.json({
       hero: c.hero,
       about: c.about,
       testimonials: c.testimonials || [],
       portfolioPhotos: photos || [],
+      galleries: galleries || [],
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
