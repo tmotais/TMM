@@ -297,24 +297,7 @@ body.lang-en [data-lang="en"] { display: block; }
       <button class="tab-btn" onclick="setTab('sport')" data-tab="sport">Sport</button>
       <button class="tab-btn" onclick="setTab('nature')" data-tab="nature"><span data-lang="fr">Nature</span><span data-lang="en">Nature</span></button>
     </div>
-    <div class="portfolio-grid" id="portfolioGrid">
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-solo.jpg" alt="Portrait solo" loading="lazy"><div class="portfolio-overlay"><span>Portrait solo</span></div></div>
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-couple.jpg" alt="Headshot Pro" loading="lazy"><div class="portfolio-overlay"><span>Headshot Pro</span></div></div>
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/headshot-premium.jpg" alt="Headshot Premium" loading="lazy"><div class="portfolio-overlay"><span>Headshot Premium</span></div></div>
-      <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-corporate.jpg" alt="Corporate" loading="lazy"><div class="portfolio-overlay"><span>Corporate</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-gala.jpg" alt="Gala" loading="lazy"><div class="portfolio-overlay"><span>Gala</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-conference.jpg" alt="Conférence" loading="lazy"><div class="portfolio-overlay"><span>Conférence</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-5a7.jpg" alt="5 à 7" loading="lazy"><div class="portfolio-overlay"><span>5 à 7</span></div></div>
-      <div class="portfolio-item" data-cat="events"><img src="/images/evenement-journee.jpg" alt="Journée" loading="lazy"><div class="portfolio-overlay"><span>Journée</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/sport-escalade.jpg" alt="Escalade" loading="lazy"><div class="portfolio-overlay"><span>Escalade</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-conference.jpg" alt="Événement" loading="lazy"><div class="portfolio-overlay"><span>Ironman</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-5a7.jpg" alt="Événement" loading="lazy"><div class="portfolio-overlay"><span>Marathon</span></div></div>
-      <div class="portfolio-item" data-cat="sport"><img src="/images/evenement-journee.jpg" alt="Événement" loading="lazy"><div class="portfolio-overlay"><span>Action</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-paysage.jpg" alt="Paysage" loading="lazy"><div class="portfolio-overlay"><span>Paysage</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-faune.jpg" alt="Wildlife" loading="lazy"><div class="portfolio-overlay"><span>Wildlife</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-lifestyle.jpg" alt="Lifestyle" loading="lazy"><div class="portfolio-overlay"><span>Lifestyle</span></div></div>
-      <div class="portfolio-item" data-cat="nature"><img src="/images/nature-moto.jpg" alt="Moto" loading="lazy"><div class="portfolio-overlay"><span>Moto</span></div></div>
-    </div>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
   </div>
 </section>
 
@@ -589,19 +572,20 @@ async function loadSiteData() {
 
 function renderPortfolioPhotos(photos) {
   const grid = document.getElementById('portfolioGrid');
-  if (!photos || !photos.length) return;
+  if (!photos || !photos.length) {
+    grid.innerHTML = '';
+    return;
+  }
   grid.innerHTML = photos.map(p => `
     <div class="portfolio-item" data-cat="${p.category || 'portraits'}">
       <img src="${p.url}" alt="${p.label || ''}" loading="lazy">
       <div class="portfolio-overlay"><span>${p.label || ''}</span></div>
     </div>
   `).join('');
-  // Re-attach cursor listeners
   grid.querySelectorAll('.portfolio-item').forEach(el => {
     el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
     el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
   });
-  // Show portraits tab by default
   setTab('portraits');
 }
 
