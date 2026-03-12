@@ -89,7 +89,7 @@ export default async function handler(req, res) {
         return res.json(await kvGet('portfolio-photos') || []);
 
       case 'upload-photo': {
-        const { base64, category, label } = req.body;
+        const { base64, category, label, format } = req.body;
         if (!base64) return res.status(400).json({ error: 'Aucune image fournie' });
 
         const matches = base64.match(/^data:image\/(\w+);base64,(.+)$/s);
@@ -111,6 +111,7 @@ export default async function handler(req, res) {
           url: blob.url,
           category: category || 'portraits',
           label: label || '',
+          format: format || 'portrait',
         };
         photos.push(newPhoto);
         await kvSet('portfolio-photos', photos);

@@ -517,6 +517,7 @@ async function saveGalleries() {
 // ─── PHOTOS ────────────────────────────────────────────────────────────────
 
 const CAT_LABELS = { portraits: 'Portraits', events: 'Événements', sport: 'Sport', nature: 'Nature' };
+const FMT_LABELS = { portrait: 'Portrait 4:5', landscape: 'Paysage 5:4', square: 'Carré 1:1', wide: 'Large 16:9' };
 
 function renderPhotoGrid() {
   const el = document.getElementById('photoGrid');
@@ -532,6 +533,9 @@ function renderPhotoGrid() {
         <input type="text" placeholder="Légende" value="${p.label || ''}" oninput="portfolioPhotos[${i}].label=this.value">
         <select onchange="portfolioPhotos[${i}].category=this.value">
           ${Object.entries(CAT_LABELS).map(([v, l]) => `<option value="${v}"${p.category===v?' selected':''}>${l}</option>`).join('')}
+        </select>
+        <select onchange="portfolioPhotos[${i}].format=this.value" style="margin-top:4px">
+          ${Object.entries(FMT_LABELS).map(([v, l]) => `<option value="${v}"${(p.format||'portrait')===v?' selected':''}>${l}</option>`).join('')}
         </select>
       </div>
     </div>
@@ -549,8 +553,8 @@ async function handlePhotoUpload(files) {
   for (const file of files) {
     progressText.textContent = `Upload ${uploaded + 1}/${files.length}…`;
     try {
-      const base64 = await resizeAndEncode(file);
-      const result = await api('upload-photo', 'POST', { base64, category, label: '' });
+      const { base64, format } = await resizeAndEncode(file);
+      const result = await api('upload-photo', 'POST', { base64, category, label: '', format });
       portfolioPhotos.push(result.photo);
       uploaded++;
     } catch (err) {
@@ -572,6 +576,14 @@ function resizeAndEncode(file) {
       img.onload = () => {
         const MAX = 1920;
         let w = img.width, h = img.height;
+        // Auto-detect format from natural dimensions
+        const ratio = w / h;
+        let format;
+        if (Math.abs(ratio - 1) < 0.05) format = 'square';
+        else if (ratio > 1.6) format = 'wide';
+        else if (ratio > 1.05) format = 'landscape';
+        else format = 'portrait';
+
         if (w > MAX || h > MAX) {
           if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
           else { w = Math.round(w * MAX / h); h = MAX; }
@@ -579,7 +591,7 @@ function resizeAndEncode(file) {
         const canvas = document.createElement('canvas');
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', 0.82));
+        resolve({ base64: canvas.toDataURL('image/jpeg', 0.82), format });
       };
       img.onerror = reject;
       img.src = e.target.result;
