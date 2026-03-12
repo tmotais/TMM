@@ -297,7 +297,7 @@ body.lang-en [data-lang="en"] { display: block; }
       <button class="tab-btn" onclick="setTab('sport')" data-tab="sport">Sport</button>
       <button class="tab-btn" onclick="setTab('nature')" data-tab="nature"><span data-lang="fr">Nature</span><span data-lang="en">Nature</span></button>
     </div>
-    <div class="portfolio-grid">
+    <div class="portfolio-grid" id="portfolioGrid">
       <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-solo.jpg" alt="Portrait solo" loading="lazy"><div class="portfolio-overlay"><span>Portrait solo</span></div></div>
       <div class="portfolio-item active" data-cat="portraits"><img src="/images/portrait-couple.jpg" alt="Headshot Pro" loading="lazy"><div class="portfolio-overlay"><span>Headshot Pro</span></div></div>
       <div class="portfolio-item active" data-cat="portraits"><img src="/images/headshot-premium.jpg" alt="Headshot Premium" loading="lazy"><div class="portfolio-overlay"><span>Headshot Premium</span></div></div>
@@ -572,17 +572,37 @@ async function loadSiteData() {
     ]);
     const content = await contentRes.json();
     const galleries = await galRes.json();
-    const products = [];
     window._galleries = galleries;
-        window._testimonials = content?.testimonials || [];
+    window._testimonials = content?.testimonials || [];
     applyContent(content);
     renderGalleries(galleries);
-        renderTestimonials(content?.testimonials || []);
+    renderTestimonials(content?.testimonials || []);
+    if (content?.portfolioPhotos?.length) {
+      renderPortfolioPhotos(content.portfolioPhotos);
+    }
   } catch(e) {
     console.log('API not available, using defaults');
-        renderTestimonials(getDefaultTestimonials());
+    renderTestimonials(getDefaultTestimonials());
     renderGalleries([]);
   }
+}
+
+function renderPortfolioPhotos(photos) {
+  const grid = document.getElementById('portfolioGrid');
+  if (!photos || !photos.length) return;
+  grid.innerHTML = photos.map(p => `
+    <div class="portfolio-item" data-cat="${p.category || 'portraits'}">
+      <img src="${p.url}" alt="${p.label || ''}" loading="lazy">
+      <div class="portfolio-overlay"><span>${p.label || ''}</span></div>
+    </div>
+  `).join('');
+  // Re-attach cursor listeners
+  grid.querySelectorAll('.portfolio-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
+  });
+  // Show portraits tab by default
+  setTab('portraits');
 }
 
 function applyContent(content) {

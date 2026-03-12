@@ -17,12 +17,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    const content = await kvGet('site-content') || getDefaultContent();
+    const [content, photos] = await Promise.all([
+      kvGet('site-content'),
+      kvGet('portfolio-photos'),
+    ]);
+    const c = content || getDefaultContent();
     // Only expose public fields — never expose admin data
     return res.json({
-      hero: content.hero,
-      about: content.about,
-      testimonials: content.testimonials || [],
+      hero: c.hero,
+      about: c.about,
+      testimonials: c.testimonials || [],
+      portfolioPhotos: photos || [],
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });

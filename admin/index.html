@@ -133,6 +133,60 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 }
 .add-btn:hover { border-color: var(--gold); color: var(--gold); }
 
+/* Photos panel */
+.photos-toolbar {
+  display: flex; gap: 12px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;
+}
+.photos-toolbar select {
+  background: var(--bg3); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 12px; font-family: 'Outfit', sans-serif; font-size: 12px;
+  outline: none; cursor: pointer;
+}
+.photos-toolbar select:focus { border-color: var(--gold); }
+.photo-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px; margin-bottom: 24px;
+}
+.photo-card {
+  background: var(--bg2); border: 1px solid var(--border); overflow: hidden;
+  position: relative;
+}
+.photo-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+.photo-card-body { padding: 10px 12px; }
+.photo-card-body input {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); padding: 5px 8px; font-family: 'Outfit', sans-serif;
+  font-size: 11px; outline: none; margin-bottom: 6px;
+}
+.photo-card-body input:focus { border-color: var(--gold); }
+.photo-card-body select {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); padding: 5px 8px; font-family: 'Outfit', sans-serif;
+  font-size: 11px; outline: none; cursor: pointer;
+}
+.photo-delete-btn {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(0,0,0,0.7); border: 1px solid var(--red); color: var(--red);
+  width: 28px; height: 28px; cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; font-family: 'Outfit', sans-serif;
+}
+.photo-delete-btn:hover { background: var(--red); color: #fff; }
+.photo-empty {
+  grid-column: 1 / -1; text-align: center; padding: 48px 0;
+  color: var(--muted); font-size: 13px;
+}
+.upload-progress {
+  font-size: 12px; color: var(--gold); margin-left: 12px;
+  display: none; align-items: center; gap: 8px;
+}
+.upload-progress.show { display: flex; }
+.spinner {
+  width: 14px; height: 14px; border: 2px solid var(--border);
+  border-top-color: var(--gold); border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* Toast */
 .toast {
@@ -142,6 +196,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
   transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 1000;
 }
 .toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { border-color: var(--red); color: var(--red); }
 </style>
 </head>
 <body>
@@ -161,9 +216,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
   <div class="admin-header">
     <div class="admin-logo">TMM Admin</div>
     <div class="admin-nav">
-      <button class="admin-tab active" onclick="showPanel('content')">Contenu</button>
-      <button class="admin-tab" onclick="showPanel('galleries')">Galeries</button>
-      <button class="admin-tab" onclick="showPanel('pending')" id="pendingTab">En attente <span id="pendingBadge" style="display:none;background:var(--gold);color:var(--bg);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;"></span></button>
+      <button class="admin-tab active" onclick="showPanel('content', this)">Contenu</button>
+      <button class="admin-tab" onclick="showPanel('galleries', this)">Galeries</button>
+      <button class="admin-tab" onclick="showPanel('pending', this)" id="pendingTab">En attente <span id="pendingBadge" style="display:none;background:var(--gold);color:var(--bg);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;"></span></button>
+      <button class="admin-tab" onclick="showPanel('photos', this)">Photos</button>
     </div>
     <button class="logout-btn" onclick="logout()">Déconnexion</button>
   </div>
@@ -240,6 +296,34 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
       <div id="pendingList"><p style="color:var(--muted);font-size:13px;">Chargement...</p></div>
     </div>
 
+    <!-- PHOTOS PANEL -->
+    <div class="panel" id="panel-photos">
+      <div class="panel-title">Portfolio — Photos</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:24px;">Gérez les photos du portfolio. Uploadez, réordonnez et assignez une catégorie.</p>
+
+      <div class="photos-toolbar">
+        <button class="add-btn" onclick="document.getElementById('photoFileInput').click()">+ Ajouter une photo</button>
+        <select id="uploadCategory">
+          <option value="portraits">Portraits</option>
+          <option value="events">Événements</option>
+          <option value="sport">Sport</option>
+          <option value="nature">Nature</option>
+        </select>
+        <div class="upload-progress" id="uploadProgress">
+          <div class="spinner"></div>
+          <span id="uploadProgressText">Upload en cours...</span>
+        </div>
+        <input type="file" id="photoFileInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(this.files)">
+      </div>
+
+      <div class="photo-grid" id="photoGrid">
+        <div class="photo-empty">Aucune photo. Cliquez "Ajouter une photo" pour commencer.</div>
+      </div>
+
+      <button class="save-btn" onclick="savePhotoOrder()">Enregistrer l'ordre</button>
+      <span class="save-status" id="photosStatus">Sauvegardé ✓</span>
+    </div>
+
   </div>
 </div>
 
@@ -247,15 +331,20 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 
 <script>
 let token = localStorage.getItem('tmm-admin-token');
-let content = {}, galleries = [];
+let content = {}, galleries = [], portfolioPhotos = [];
 
 async function api(action, method = 'GET', body = null) {
   const opts = {
     method,
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
   };
-  if (body) opts.body = JSON.stringify(body);
+  if (body !== null) opts.body = JSON.stringify(body);
   const res = await fetch(`/api/admin?action=${action}`, opts);
+  if (!res.ok) {
+    let errMsg = `Erreur ${res.status}`;
+    try { const d = await res.json(); errMsg = d.error || errMsg; } catch {}
+    throw new Error(errMsg);
+  }
   return res.json();
 }
 
@@ -283,10 +372,14 @@ async function showAdmin() {
 }
 
 async function loadAll() {
-  content = await api('get-content');
-  galleries = await api('get-galleries');
+  [content, galleries, portfolioPhotos] = await Promise.all([
+    api('get-content'),
+    api('get-galleries'),
+    api('get-portfolio-photos'),
+  ]);
   renderContent();
   renderGalleries();
+  renderPhotoGrid();
   loadPending();
 }
 
@@ -320,7 +413,6 @@ async function loadPending() {
     `).join('');
   }
 
-  // Published testimonials section
   const published = content?.testimonials || [];
   html += `<div style="border-top:1px solid var(--border);margin-top:24px;padding-top:28px;">
     <div style="font-size:11px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px;">Publiés (${published.length})</div>`;
@@ -338,7 +430,6 @@ async function loadPending() {
     `).join('');
   }
   html += '</div>';
-
   el.innerHTML = html;
 }
 
@@ -423,12 +514,106 @@ async function saveGalleries() {
   showToast('Galeries sauvegardées ✓');
 }
 
+// ─── PHOTOS ────────────────────────────────────────────────────────────────
 
-function showPanel(name) {
+const CAT_LABELS = { portraits: 'Portraits', events: 'Événements', sport: 'Sport', nature: 'Nature' };
+
+function renderPhotoGrid() {
+  const el = document.getElementById('photoGrid');
+  if (!portfolioPhotos.length) {
+    el.innerHTML = '<div class="photo-empty">Aucune photo. Cliquez "Ajouter une photo" pour commencer.</div>';
+    return;
+  }
+  el.innerHTML = portfolioPhotos.map((p, i) => `
+    <div class="photo-card" data-id="${p.id}">
+      <img src="${p.url}" alt="${p.label || ''}" loading="lazy">
+      <button class="photo-delete-btn" onclick="deletePhoto('${p.id}')">×</button>
+      <div class="photo-card-body">
+        <input type="text" placeholder="Légende" value="${p.label || ''}" oninput="portfolioPhotos[${i}].label=this.value">
+        <select onchange="portfolioPhotos[${i}].category=this.value">
+          ${Object.entries(CAT_LABELS).map(([v, l]) => `<option value="${v}"${p.category===v?' selected':''}>${l}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function handlePhotoUpload(files) {
+  if (!files.length) return;
+  const category = document.getElementById('uploadCategory').value;
+  const progress = document.getElementById('uploadProgress');
+  const progressText = document.getElementById('uploadProgressText');
+  progress.classList.add('show');
+
+  let uploaded = 0;
+  for (const file of files) {
+    progressText.textContent = `Upload ${uploaded + 1}/${files.length}…`;
+    try {
+      const base64 = await resizeAndEncode(file);
+      const result = await api('upload-photo', 'POST', { base64, category, label: '' });
+      portfolioPhotos.push(result.photo);
+      uploaded++;
+    } catch (err) {
+      showToast('Erreur: ' + err.message, true);
+    }
+  }
+
+  progress.classList.remove('show');
+  document.getElementById('photoFileInput').value = '';
+  renderPhotoGrid();
+  if (uploaded > 0) showToast(`${uploaded} photo${uploaded > 1 ? 's' : ''} ajoutée${uploaded > 1 ? 's' : ''} ✓`);
+}
+
+function resizeAndEncode(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1920;
+        let w = img.width, h = img.height;
+        if (w > MAX || h > MAX) {
+          if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+          else { w = Math.round(w * MAX / h); h = MAX; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function deletePhoto(id) {
+  if (!confirm('Supprimer cette photo du portfolio ?')) return;
+  try {
+    await api('delete-photo', 'POST', { id });
+    portfolioPhotos = portfolioPhotos.filter(p => p.id !== id);
+    renderPhotoGrid();
+    showToast('Photo supprimée ✓');
+  } catch (err) {
+    showToast('Erreur: ' + err.message, true);
+  }
+}
+
+async function savePhotoOrder() {
+  await api('save-portfolio-photos', 'POST', portfolioPhotos);
+  showStatus('photosStatus');
+  showToast('Ordre sauvegardé ✓');
+}
+
+// ─── UI helpers ────────────────────────────────────────────────────────────
+
+function showPanel(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
   document.getElementById(`panel-${name}`).classList.add('active');
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
   if (name === 'pending') loadPending();
 }
 
@@ -438,9 +623,10 @@ function showStatus(id) {
   setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-function showToast(msg) {
+function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
+  t.classList.toggle('error', isError);
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
@@ -452,7 +638,6 @@ function logout() {
   document.getElementById('loginScreen').style.display = 'flex';
 }
 
-// Auto-login if token stored
 if (token) showAdmin();
 </script>
 </body>

@@ -1,3 +1,13 @@
+import { put, del } from '@vercel/blob';
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+  },
+};
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -73,6 +83,61 @@ export default async function handler(req, res) {
         await kvSet('testimonials-pending', pending.filter(t => t.id !== id));
         return res.json({ success: true });
       }
+
+      // Portfolio photo management
+      case 'get-portfolio-photos':
+        return res.json(await kvGet('portfolio-photos') || []);
+
+      case 'upload-photo': {
+        const { base64, category, label } = req.body;
+        if (!base64) return res.status(400).json({ error: 'Aucune image fournie' });
+
+        const matches = base64.match(/^data:image\/(\w+);base64,(.+)$/s);
+        if (!matches) return res.status(400).json({ error: 'Format image invalide' });
+        const [, ext, data] = matches;
+        const buffer = Buffer.from(data, 'base64');
+        const contentType = ext === 'png' ? 'image/png' : 'image/jpeg';
+        const filename = `portfolio-${Date.now()}.${ext === 'png' ? 'png' : 'jpg'}`;
+
+        const blob = await put(filename, buffer, {
+          access: 'public',
+          contentType,
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
+
+        const photos = await kvGet('portfolio-photos') || [];
+        const newPhoto = {
+          id: `${Date.now()}`,
+          url: blob.url,
+          category: category || 'portraits',
+          label: label || '',
+        };
+        photos.push(newPhoto);
+        await kvSet('portfolio-photos', photos);
+        return res.json({ success: true, photo: newPhoto });
+      }
+
+      case 'delete-photo': {
+        const { id } = req.body;
+        const photos = await kvGet('portfolio-photos') || [];
+        const photo = photos.find(p => p.id === id);
+        if (!photo) return res.status(404).json({ error: 'Photo introuvable' });
+
+        try {
+          await del(photo.url, { token: process.env.BLOB_READ_WRITE_TOKEN });
+        } catch {
+          // Continue even if blob deletion fails (e.g. already deleted)
+        }
+
+        await kvSet('portfolio-photos', photos.filter(p => p.id !== id));
+        return res.json({ success: true });
+      }
+
+      case 'save-portfolio-photos': {
+        await kvSet('portfolio-photos', req.body);
+        return res.json({ success: true });
+      }
+
       default: return res.status(400).json({ error: 'Action inconnue' });
     }
   } catch (err) {
