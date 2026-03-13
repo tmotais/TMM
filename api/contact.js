@@ -32,7 +32,7 @@ export default async function handler(req, res) {
       headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: 'contact@thibaultmotais.com',
-        to: 'thibaultmotaismedia@gmail.com',
+        to: 'contact@thibaultmotais.com',
         reply_to: email,
         subject: `[TMM] ${firstName} ${lastName} — ${projectType || 'Nouveau message'}`,
         html: emailHtml,
