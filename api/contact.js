@@ -6,6 +6,12 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  // Validate environment
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[Contact API] RESEND_API_KEY not configured');
+    return res.status(500).json({ error: 'Email service not configured' });
+  }
+
   const { firstName, lastName, email, projectType, message } = req.body;
 
   if (!firstName || !email || !message) {
@@ -27,7 +33,7 @@ export default async function handler(req, res) {
 
   try {
     // Email to Thibault
-    await fetch('https://api.resend.com/emails', {
+    const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -39,8 +45,17 @@ export default async function handler(req, res) {
       }),
     });
 
+    if (!resendResponse.ok) {
+      const errorData = await resendResponse.json();
+      console.error('[Contact API] Resend error:', errorData);
+      return res.status(500).json({ error: 'Failed to send email', details: errorData });
+    }
+
+    const sendData = await resendResponse.json();
+    console.log('[Contact API] Email sent to admin:', sendData.id);
+
     // Auto-reply to client
-    await fetch('https://api.resend.com/emails', {
+    const replyResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -61,8 +76,18 @@ export default async function handler(req, res) {
       }),
     });
 
+    if (!replyResponse.ok) {
+      const errorData = await replyResponse.json();
+      console.error('[Contact API] Auto-reply error:', errorData);
+      // Don't fail if auto-reply fails, admin email was sent
+    } else {
+      const replyData = await replyResponse.json();
+      console.log('[Contact API] Auto-reply sent to client:', replyData.id);
+    }
+
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('[Contact API] Error:', err.message);
+    return res.status(500).json({ error: 'Email service error', details: err.message });
   }
 }
