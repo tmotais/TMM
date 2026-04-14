@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarifs — Thibault Motais Media</title>
+<meta name="description" content="Tarifs photo et vidéo de Thibault Motais — Portraits, événements, sport, vidéographie à Montréal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --gold: #C8A96E; --gold-dim: rgba(200,169,110,0.15); --gold-line: rgba(200,169,110,0.3);
+  --bg: #080808; --bg2: #0f0f0f; --bg3: #141414; --bg4: #1a1a1a;
+  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --muted2: #3a3a3a; --white: #f0ece2;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; cursor: none; }
+.cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s; }
+.cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid var(--gold-line); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.15s ease; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; transition: background 0.4s, padding 0.4s; }
+nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); padding: 16px 48px; border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 400; }
+.nav-links a:hover, .nav-links a.active-page { color: var(--gold); }
+.nav-lang { display: flex; gap: 4px; margin-left: 8px; }
+.nav-lang button { background: none; border: none; cursor: pointer; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'Outfit', sans-serif; padding: 2px 6px; transition: color 0.2s; }
+.nav-lang button.active { color: var(--gold); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.nav-hamburger span { width: 24px; height: 1px; background: var(--text); display: block; }
+@media(max-width:768px) { nav { padding: 20px 24px; } nav.scrolled { padding: 14px 24px; } .nav-links { display: none; position: fixed; inset: 0; background: var(--bg); flex-direction: column; justify-content: center; align-items: center; gap: 32px; } .nav-links.open { display: flex; } .nav-hamburger { display: flex; z-index: 101; } }
+
+/* SECTIONS */
+section { position: relative; z-index: 2; }
+.section-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 300; color: var(--white); line-height: 1.1; }
+.section-title em { font-style: italic; color: var(--gold); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+@media(max-width:768px) { .container { padding: 0 24px; } }
+.btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--gold); color: var(--bg); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; font-weight: 500; transition: background 0.2s, transform 0.2s; font-family: 'Outfit', sans-serif; }
+.btn-primary:hover { background: #dabb80; transform: translateY(-1px); }
+
+/* PAGE HERO */
+.page-hero { padding: 140px 0 72px; }
+.page-hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 300; color: var(--white); line-height: 1.1; margin-top: 12px; }
+.page-hero-title em { font-style: italic; color: var(--gold); }
+@media(max-width:768px) { .page-hero { padding: 100px 0 48px; } }
+
+/* PRICING */
+#pricing { padding: 0 0 96px; background: var(--bg); }
+.pricing-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+@media(max-width:640px) { .pricing-cols { grid-template-columns: 1fr; } }
+.pricing-col-header { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); padding-bottom: 10px; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+.pricing-note-small { font-size: 11px; color: var(--muted); font-style: italic; padding: 6px 0 4px; }
+.price-cat { background: var(--bg3); padding: 5px 10px; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+.price-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 10px; font-size: 13px; transition: background 0.15s; }
+.price-row:nth-child(odd) { background: var(--bg3); }
+.price-row:nth-child(even) { background: var(--bg4); }
+.price-row:hover { background: #222; }
+.price-row .pl { color: var(--text); }
+.price-row .pr { color: var(--gold); font-weight: 500; white-space: nowrap; margin-left: 16px; }
+.combined-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+@media(max-width:600px) { .combined-grid { grid-template-columns: 1fr; } }
+.combined-cell { background: var(--bg3); padding: 14px; transition: background 0.15s; }
+.combined-cell:nth-child(even) { background: var(--bg4); }
+.combined-cell:hover { background: #1e1e1e; }
+.cc-name { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 3px; }
+.cc-detail { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.cc-price { font-size: 15px; font-weight: 500; color: var(--gold); }
+.options-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-bottom: 24px; }
+@media(max-width:600px) { .options-grid { grid-template-columns: repeat(2,1fr); } }
+.opt-cell { background: var(--bg3); padding: 12px 14px; }
+.opt-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+.opt-val { font-size: 18px; font-weight: 500; color: var(--gold); }
+.inclus-strip { background: var(--bg3); padding: 20px 24px; border-left: 2px solid var(--gold); }
+.inclus-strip-title { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.inclus-strip-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px 32px; }
+@media(max-width:500px) { .inclus-strip-grid { grid-template-columns: 1fr; } }
+.inclus-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.inclus-item::before { content: '•'; color: var(--gold); flex-shrink: 0; }
+
+/* CTA */
+.page-cta { padding: 96px 0; background: var(--bg2); text-align: center; }
+.page-cta .section-title { margin: 16px 0 36px; }
+
+/* FOOTER */
+footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+@media(max-width:768px) { footer { padding: 32px 24px; flex-direction: column; text-align: center; } }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--white); letter-spacing: 0.06em; }
+.footer-logo span { color: var(--gold); }
+.footer-copy { font-size: 11px; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+
+/* LANG */
+[data-lang="en"] { display: none; }
+body.lang-en [data-lang="fr"] { display: none; }
+body.lang-en [data-lang="en"] { display: block; }
+
+/* SCROLL ANIM */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="/" class="nav-logo">Thibault Motais <span>Media</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/tarifs"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
+    <a href="/galeries"><span data-lang="fr">Galeries</span><span data-lang="en">Galleries</span></a>
+    <a href="/contact">Contact</a>
+    <div class="nav-lang">
+      <button class="active" onclick="setLang('fr')" id="btnFr">FR</button>
+      <button onclick="setLang('en')" id="btnEn">EN</button>
+    </div>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <span class="section-eyebrow"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></span>
+    <h1 class="page-hero-title"><span data-lang="fr">Transparent,<br><em>sans surprise</em></span><span data-lang="en">Transparent,<br><em>no surprises</em></span></h1>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="pricing-cols reveal">
+      <div>
+        <div class="pricing-col-header"><span data-lang="fr">Photographie</span><span data-lang="en">Photography</span></div>
+        <p class="pricing-note-small"><span data-lang="fr">Galerie Pictime HD incluse</span><span data-lang="en">HD Pictime gallery included</span></p>
+        <div class="price-cat"><span data-lang="fr">Portraits</span><span data-lang="en">Portraits</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Portrait solo — 1h</span><span data-lang="en">Solo portrait — 1h</span></span><span class="pr">200 $</span></div>
+        <div class="price-row"><span class="pl">Headshot Pro — 2h</span><span class="pr">350 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Headshot Premium — droits inclus</span><span data-lang="en">Headshot Premium — rights incl.</span></span><span class="pr">550 $</span></div>
+        <div class="price-cat"><span data-lang="fr">Événements</span><span data-lang="en">Events</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Événement — 3h</span><span data-lang="en">Event — 3h</span></span><span class="pr">500 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Événement — 5h</span><span data-lang="en">Event — 5h</span></span><span class="pr">800 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Journée complète</span><span data-lang="en">Full day</span></span><span class="pr">1 200 $</span></div>
+        <div class="price-cat">Sport</div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Match sportif</span><span data-lang="en">Sports match</span></span><span class="pr">450 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Tournoi journée</span><span data-lang="en">Day tournament</span></span><span class="pr">850 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Saison — 5 matchs</span><span data-lang="en">Season — 5 games</span></span><span class="pr">1 500 $</span></div>
+      </div>
+      <div>
+        <div class="pricing-col-header"><span data-lang="fr">Vidéographie</span><span data-lang="en">Videography</span></div>
+        <p class="pricing-note-small"><span data-lang="fr">Montage inclus — livraison 10-14 jours</span><span data-lang="en">Editing included — 10-14 day delivery</span></p>
+        <div class="price-row"><span class="pl">Reel — 30-60 sec</span><span class="pr">350 $</span></div>
+        <div class="price-row"><span class="pl">Pack 3 Reels</span><span class="pr">800 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Abonnement 4 Reels/mois</span><span data-lang="en">4 Reels/month subscription</span></span><span class="pr">900 $/mois</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Recap événement — 1-2 min</span><span data-lang="en">Event recap — 1-2 min</span></span><span class="pr">500 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Recap complet — 3-5 min</span><span data-lang="en">Full recap — 3-5 min</span></span><span class="pr">900 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Vidéo corporative — 5 min</span><span data-lang="en">Corporate video — 5 min</span></span><span class="pr">1 600 $</span></div>
+        <div class="price-row"><span class="pl"><span data-lang="fr">Témoignage client</span><span data-lang="en">Client testimonial</span></span><span class="pr">600 $</span></div>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-1" style="margin-bottom:24px">
+      <div class="pricing-col-header" style="margin-bottom:0"><span data-lang="fr">Packages Combinés</span><span data-lang="en">Combined Packages</span></div>
+      <div class="combined-grid">
+        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Événement Essentiel</span><span data-lang="en">Essential Event</span></div><div class="cc-detail">5h photo + 1 Reel</div><div class="cc-price">1 000 $</div></div>
+        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Événement Standard</span><span data-lang="en">Standard Event</span></div><div class="cc-detail"><span data-lang="fr">Journée + vidéo 3 min</span><span data-lang="en">Full day + 3 min video</span></div><div class="cc-price">1 800 $</div></div>
+        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Événement Premium</span><span data-lang="en">Premium Event</span></div><div class="cc-detail"><span data-lang="fr">Journée + vidéo 5 min + droits</span><span data-lang="en">Full day + 5 min + rights</span></div><div class="cc-price">2 500 $</div></div>
+        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Saison Sport</span><span data-lang="en">Sport Season</span></div><div class="cc-detail">5 <span data-lang="fr">matchs</span><span data-lang="en">games</span> + 5 Reels</div><div class="cc-price">2 500 $</div></div>
+        <div class="combined-cell"><div class="cc-name">PME Starter/mois</div><div class="cc-detail">2h photo + 2 Reels</div><div class="cc-price">700 $/mois</div></div>
+        <div class="combined-cell"><div class="cc-name">PME Growth/mois</div><div class="cc-detail">4h + 4 Reels + 1 <span data-lang="fr">vidéo</span><span data-lang="en">video</span></div><div class="cc-price">1 400 $/mois</div></div>
+      </div>
+    </div>
+
+    <div class="options-grid reveal">
+      <div class="opt-cell"><div class="opt-label"><span data-lang="fr">Express 48h</span><span data-lang="en">Express 48h</span></div><div class="opt-val">+100 $</div></div>
+      <div class="opt-cell"><div class="opt-label"><span data-lang="fr">Droits commerciaux</span><span data-lang="en">Commercial rights</span></div><div class="opt-val">+200 $</div></div>
+      <div class="opt-cell"><div class="opt-label"><span data-lang="fr">Acompte signature</span><span data-lang="en">Deposit at signing</span></div><div class="opt-val">50%</div></div>
+      <div class="opt-cell"><div class="opt-label">Taxes</div><div class="opt-val"><span data-lang="fr">En sus</span><span data-lang="en">Extra</span></div></div>
+    </div>
+
+    <div class="inclus-strip reveal">
+      <div class="inclus-strip-title"><span data-lang="fr">Inclus dans chaque projet</span><span data-lang="en">Included in every project</span></div>
+      <div class="inclus-strip-grid">
+        <div class="inclus-item"><span data-lang="fr">Galerie Pictime privée par lien sécurisé</span><span data-lang="en">Private Pictime gallery via secure link</span></div>
+        <div class="inclus-item"><span data-lang="fr">Photos HD téléchargeables sans limite</span><span data-lang="en">Unlimited HD photo downloads</span></div>
+        <div class="inclus-item"><span data-lang="fr">Retouche professionnelle incluse</span><span data-lang="en">Professional editing included</span></div>
+        <div class="inclus-item"><span data-lang="fr">Acompte 50% — solde à la livraison</span><span data-lang="en">50% deposit — balance on delivery</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="page-cta">
+  <div class="container">
+    <span class="section-eyebrow"><span data-lang="fr">Prêt à commencer ?</span><span data-lang="en">Ready to start?</span></span>
+    <h2 class="section-title"><span data-lang="fr">Demandez votre<br><em>devis gratuit</em></span><span data-lang="en">Request your<br><em>free quote</em></span></h2>
+    <a href="/contact" class="btn-primary"><span data-lang="fr">Nous contacter</span><span data-lang="en">Contact us</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Thibault Motais <span>Media</span></div>
+  <div class="footer-copy">© 2026 Thibault Motais Media</div>
+  <div class="footer-links">
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/contact">Contact</a>
+    <a href="/admin" style="color:var(--muted2);font-size:10px">Admin</a>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px';
+  setTimeout(() => { ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
+});
+
+// Nav scroll
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60));
+
+// Mobile menu
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+// Active nav
+document.querySelector('.nav-links a[href="/tarifs"]').classList.add('active-page');
+
+// Language
+let currentLang = 'fr';
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('tmm-lang', lang);
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Init
+const savedLang = localStorage.getItem('tmm-lang') || 'fr';
+setLang(savedLang);
+</script>
+</body>
+</html>

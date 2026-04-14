@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Thibault Motais Media</title>
+<meta name="description" content="Contactez Thibault Motais — Devis gratuit sous 24h pour vos projets photo et vidéo à Montréal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --gold: #C8A96E; --gold-dim: rgba(200,169,110,0.15); --gold-line: rgba(200,169,110,0.3);
+  --bg: #080808; --bg2: #0f0f0f; --bg3: #141414; --bg4: #1a1a1a;
+  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --muted2: #3a3a3a; --white: #f0ece2;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; cursor: none; }
+.cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s; }
+.cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid var(--gold-line); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.15s ease; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; transition: background 0.4s, padding 0.4s; }
+nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); padding: 16px 48px; border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 400; }
+.nav-links a:hover, .nav-links a.active-page { color: var(--gold); }
+.nav-lang { display: flex; gap: 4px; margin-left: 8px; }
+.nav-lang button { background: none; border: none; cursor: pointer; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'Outfit', sans-serif; padding: 2px 6px; transition: color 0.2s; }
+.nav-lang button.active { color: var(--gold); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.nav-hamburger span { width: 24px; height: 1px; background: var(--text); display: block; }
+@media(max-width:768px) { nav { padding: 20px 24px; } nav.scrolled { padding: 14px 24px; } .nav-links { display: none; position: fixed; inset: 0; background: var(--bg); flex-direction: column; justify-content: center; align-items: center; gap: 32px; } .nav-links.open { display: flex; } .nav-hamburger { display: flex; z-index: 101; } }
+
+/* SECTIONS */
+section { position: relative; z-index: 2; }
+.section-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 300; color: var(--white); line-height: 1.1; }
+.section-title em { font-style: italic; color: var(--gold); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+@media(max-width:768px) { .container { padding: 0 24px; } }
+
+/* PAGE HERO */
+.page-hero { padding: 140px 0 72px; background: var(--bg2); }
+.page-hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 300; color: var(--white); line-height: 1.1; margin-top: 12px; }
+.page-hero-title em { font-style: italic; color: var(--gold); }
+@media(max-width:768px) { .page-hero { padding: 100px 0 48px; } }
+
+/* CONTACT */
+#contact { padding: 80px 0 120px; background: var(--bg2); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; }
+@media(max-width:768px) { .contact-grid { grid-template-columns: 1fr; gap: 48px; } }
+.contact-info p { font-size: 14px; color: var(--muted); line-height: 1.9; margin-bottom: 36px; }
+.contact-details { display: flex; flex-direction: column; gap: 16px; margin-bottom: 36px; }
+.contact-detail { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--text); }
+.contact-detail-icon { width: 36px; height: 36px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); }
+.contact-detail a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+.contact-detail a:hover { color: var(--gold); }
+.contact-social { display: flex; gap: 12px; }
+.social-link { width: 40px; height: 40px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; transition: all 0.2s; }
+.social-link:hover { border-color: var(--gold); color: var(--gold); }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media(max-width:480px) { .form-row { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.form-group input, .form-group select, .form-group textarea { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 12px 14px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 300; outline: none; transition: border-color 0.2s; width: 100%; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-calendly { background: var(--bg3); border: 1px solid var(--border); padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-decoration: none; transition: border-color 0.2s; color: var(--text); }
+.form-calendly:hover { border-color: var(--gold); }
+.form-calendly-text { font-size: 12px; color: var(--muted); }
+.form-calendly-text strong { display: block; color: var(--text); font-weight: 400; margin-bottom: 2px; }
+.form-submit { background: var(--gold); border: none; color: var(--bg); padding: 14px 36px; font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: background 0.2s; align-self: flex-start; }
+.form-submit:hover { background: #dabb80; }
+.form-note { font-size: 11px; color: var(--muted); font-style: italic; }
+
+/* FOOTER */
+footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+@media(max-width:768px) { footer { padding: 32px 24px; flex-direction: column; text-align: center; } }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--white); letter-spacing: 0.06em; }
+.footer-logo span { color: var(--gold); }
+.footer-copy { font-size: 11px; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+
+/* LANG */
+[data-lang="en"] { display: none; }
+body.lang-en [data-lang="fr"] { display: none; }
+body.lang-en [data-lang="en"] { display: block; }
+
+/* SCROLL ANIM */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg2); border: 1px solid var(--gold); padding: 14px 24px; font-size: 13px; color: var(--gold); transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 1000; }
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="/" class="nav-logo">Thibault Motais <span>Media</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/tarifs"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
+    <a href="/galeries"><span data-lang="fr">Galeries</span><span data-lang="en">Galleries</span></a>
+    <a href="/contact">Contact</a>
+    <div class="nav-lang">
+      <button class="active" onclick="setLang('fr')" id="btnFr">FR</button>
+      <button onclick="setLang('en')" id="btnEn">EN</button>
+    </div>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <span class="section-eyebrow">Contact</span>
+    <h1 class="page-hero-title"><span data-lang="fr">Parlons de<br><em>votre projet</em></span><span data-lang="en">Let's talk about<br><em>your project</em></span></h1>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <p data-lang="fr">Devis personnalisé sous 24h. Pas de frais cachés, pas de mauvaises surprises. Juste du bon travail livré à temps.</p>
+        <p data-lang="en">Custom quote within 24h. No hidden fees, no surprises. Just good work delivered on time.</p>
+        <div class="contact-details" style="margin-top:24px">
+          <div class="contact-detail">
+            <div class="contact-detail-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <a href="mailto:contact@thibaultmotais.com">contact@thibaultmotais.com</a>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
+            <a href="tel:+14384053763">+1 (438) 405-3763</a>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <span>Montréal, Québec</span>
+          </div>
+        </div>
+        <div class="contact-social">
+          <a href="https://instagram.com/thibaultmotaismedia" target="_blank" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/thibaultmotais" target="_blank" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+      <form class="contact-form reveal reveal-delay-1" id="contactForm">
+        <div class="form-row">
+          <div class="form-group"><label><span data-lang="fr">Prénom</span><span data-lang="en">First name</span></label><input type="text" id="firstName" required></div>
+          <div class="form-group"><label><span data-lang="fr">Nom</span><span data-lang="en">Last name</span></label><input type="text" id="lastName" required></div>
+        </div>
+        <div class="form-group"><label>Email</label><input type="email" id="email" required></div>
+        <div class="form-group">
+          <label><span data-lang="fr">Type de projet</span><span data-lang="en">Project type</span></label>
+          <select id="projectType">
+            <option data-lang="fr">Portraits / Headshots</option><option data-lang="en">Portraits / Headshots</option>
+            <option data-lang="fr">Événement corporatif</option><option data-lang="en">Corporate event</option>
+            <option data-lang="fr">Sport / Action</option><option data-lang="en">Sport / Action</option>
+            <option data-lang="fr">Contenu réseaux sociaux</option><option data-lang="en">Social media content</option>
+            <option data-lang="fr">Vidéographie</option><option data-lang="en">Videography</option>
+            <option data-lang="fr">Autre</option><option data-lang="en">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><span data-lang="fr">Message</span><span data-lang="en">Message</span></label>
+          <textarea id="message" placeholder="..." required></textarea>
+        </div>
+        <a href="https://calendly.com/thibaultmotais" target="_blank" class="form-calendly">
+          <div class="form-calendly-text">
+            <strong><span data-lang="fr">Préférez planifier un appel ?</span><span data-lang="en">Prefer to schedule a call?</span></strong>
+            <span data-lang="fr">Réservez directement dans mon calendrier</span><span data-lang="en">Book directly in my calendar</span>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </a>
+        <button type="submit" class="form-submit"><span data-lang="fr">Envoyer</span><span data-lang="en">Send</span></button>
+        <p class="form-note"><span data-lang="fr">Réponse garantie sous 24h.</span><span data-lang="en">Response guaranteed within 24h.</span></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Thibault Motais <span>Media</span></div>
+  <div class="footer-copy">© 2026 Thibault Motais Media</div>
+  <div class="footer-links">
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/contact">Contact</a>
+    <a href="/admin" style="color:var(--muted2);font-size:10px">Admin</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px';
+  setTimeout(() => { ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
+});
+
+// Nav scroll
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60));
+
+// Mobile menu
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+// Active nav
+document.querySelector('.nav-links a[href="/contact"]').classList.add('active-page');
+
+// Language
+let currentLang = 'fr';
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('tmm-lang', lang);
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+}
+
+// Toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Contact form
+document.getElementById('contactForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.disabled = true;
+  btn.textContent = currentLang === 'fr' ? 'Envoi...' : 'Sending...';
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        projectType: document.getElementById('projectType').value,
+        message: document.getElementById('message').value,
+      }),
+    });
+    if (res.ok) {
+      showToast(currentLang === 'fr' ? 'Message envoyé ! Réponse sous 24h.' : 'Message sent! Reply within 24h.');
+      e.target.reset();
+    } else {
+      showToast('Erreur. Réessayez ou écrivez directement.');
+    }
+  } catch {
+    showToast('Erreur réseau. Réessayez.');
+  }
+  btn.disabled = false;
+  btn.innerHTML = currentLang === 'fr' ? '<span data-lang="fr">Envoyer</span><span data-lang="en">Send</span>' : 'Send';
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Init
+const savedLang = localStorage.getItem('tmm-lang') || 'fr';
+setLang(savedLang);
+</script>
+</body>
+</html>

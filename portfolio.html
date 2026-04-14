@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Thibault Motais Media</title>
+<meta name="description" content="Portfolio photo de Thibault Motais — Portraits, événements, sport et nature à Montréal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --gold: #C8A96E; --gold-dim: rgba(200,169,110,0.15); --gold-line: rgba(200,169,110,0.3);
+  --bg: #080808; --bg2: #0f0f0f; --bg3: #141414; --bg4: #1a1a1a;
+  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --muted2: #3a3a3a; --white: #f0ece2;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; cursor: none; }
+.cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s; }
+.cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid var(--gold-line); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.15s ease; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; transition: background 0.4s, padding 0.4s; }
+nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); padding: 16px 48px; border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 400; }
+.nav-links a:hover, .nav-links a.active-page { color: var(--gold); }
+.nav-lang { display: flex; gap: 4px; margin-left: 8px; }
+.nav-lang button { background: none; border: none; cursor: pointer; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'Outfit', sans-serif; padding: 2px 6px; transition: color 0.2s; }
+.nav-lang button.active { color: var(--gold); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.nav-hamburger span { width: 24px; height: 1px; background: var(--text); display: block; }
+@media(max-width:768px) { nav { padding: 20px 24px; } nav.scrolled { padding: 14px 24px; } .nav-links { display: none; position: fixed; inset: 0; background: var(--bg); flex-direction: column; justify-content: center; align-items: center; gap: 32px; } .nav-links.open { display: flex; } .nav-hamburger { display: flex; z-index: 101; } }
+
+/* SECTIONS */
+section { position: relative; z-index: 2; }
+.section-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 300; color: var(--white); line-height: 1.1; }
+.section-title em { font-style: italic; color: var(--gold); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+@media(max-width:768px) { .container { padding: 0 24px; } }
+.btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--gold); color: var(--bg); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; font-weight: 500; transition: background 0.2s, transform 0.2s; font-family: 'Outfit', sans-serif; }
+.btn-primary:hover { background: #dabb80; transform: translateY(-1px); }
+
+/* PAGE HERO */
+.page-hero { padding: 140px 0 72px; }
+.page-hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 300; color: var(--white); line-height: 1.1; margin-top: 12px; }
+.page-hero-title em { font-style: italic; color: var(--gold); }
+@media(max-width:768px) { .page-hero { padding: 100px 0 48px; } }
+
+/* PORTFOLIO */
+.portfolio-tabs { display: flex; gap: 2px; margin-bottom: 48px; border-bottom: 1px solid var(--border); }
+.tab-btn { background: none; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 12px 20px; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s; }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn:hover:not(.active) { color: var(--text); }
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+@media(max-width:768px) { .portfolio-grid { grid-template-columns: repeat(2,1fr); } }
+.portfolio-item { aspect-ratio: 4/5; overflow: hidden; position: relative; background: var(--bg3); cursor: pointer; display: none; }
+.portfolio-item.active { display: block; }
+.portfolio-item.active[data-format="portrait"]  { aspect-ratio: 4/5; grid-column: span 1; }
+.portfolio-item.active[data-format="landscape"] { aspect-ratio: 5/4; grid-column: span 2; }
+.portfolio-item.active[data-format="square"]    { aspect-ratio: 1/1; grid-column: span 1; }
+.portfolio-item.active[data-format="wide"]      { aspect-ratio: 16/9; grid-column: span 3; }
+@media(max-width:768px) {
+  .portfolio-item.active[data-format="landscape"],
+  .portfolio-item.active[data-format="wide"] { grid-column: span 2; aspect-ratio: 5/4; }
+}
+.portfolio-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; display: block; }
+.portfolio-item:hover img { transform: scale(1.04); }
+.portfolio-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; padding: 20px; opacity: 0; transition: opacity 0.3s; }
+.portfolio-item:hover .portfolio-overlay { opacity: 1; }
+.portfolio-overlay span { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+.portfolio-empty { padding: 80px 0; text-align: center; color: var(--muted); font-size: 13px; font-style: italic; }
+
+/* CTA */
+.page-cta { padding: 96px 0; background: var(--bg2); text-align: center; }
+.page-cta .section-title { margin: 16px 0 36px; }
+
+/* FOOTER */
+footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+@media(max-width:768px) { footer { padding: 32px 24px; flex-direction: column; text-align: center; } }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--white); letter-spacing: 0.06em; }
+.footer-logo span { color: var(--gold); }
+.footer-copy { font-size: 11px; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+
+/* LANG */
+[data-lang="en"] { display: none; }
+body.lang-en [data-lang="fr"] { display: none; }
+body.lang-en [data-lang="en"] { display: block; }
+
+/* SCROLL ANIM */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg2); border: 1px solid var(--gold); padding: 14px 24px; font-size: 13px; color: var(--gold); transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 1000; }
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="/" class="nav-logo">Thibault Motais <span>Media</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/tarifs"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
+    <a href="/galeries"><span data-lang="fr">Galeries</span><span data-lang="en">Galleries</span></a>
+    <a href="/contact">Contact</a>
+    <div class="nav-lang">
+      <button class="active" onclick="setLang('fr')" id="btnFr">FR</button>
+      <button onclick="setLang('en')" id="btnEn">EN</button>
+    </div>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <span class="section-eyebrow">Portfolio</span>
+    <h1 class="page-hero-title"><span data-lang="fr">Le travail<br><em>parle de lui-même</em></span><span data-lang="en">The work<br><em>speaks for itself</em></span></h1>
+  </div>
+</section>
+
+<!-- PORTFOLIO GRID -->
+<section style="padding-bottom:96px;">
+  <div class="container">
+    <div class="portfolio-tabs reveal">
+      <button class="tab-btn active" onclick="setTab('portraits')" data-tab="portraits"><span data-lang="fr">Portraits</span><span data-lang="en">Portraits</span></button>
+      <button class="tab-btn" onclick="setTab('events')" data-tab="events"><span data-lang="fr">Événements</span><span data-lang="en">Events</span></button>
+      <button class="tab-btn" onclick="setTab('sport')" data-tab="sport">Sport</button>
+      <button class="tab-btn" onclick="setTab('nature')" data-tab="nature"><span data-lang="fr">Nature</span><span data-lang="en">Nature</span></button>
+    </div>
+    <div class="portfolio-grid" id="portfolioGrid">
+      <div class="portfolio-empty"><span data-lang="fr">Chargement...</span><span data-lang="en">Loading...</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="page-cta">
+  <div class="container">
+    <span class="section-eyebrow"><span data-lang="fr">Prêt à commencer ?</span><span data-lang="en">Ready to start?</span></span>
+    <h2 class="section-title"><span data-lang="fr">Créons quelque chose<br><em>ensemble</em></span><span data-lang="en">Let's create something<br><em>together</em></span></h2>
+    <a href="/contact" class="btn-primary"><span data-lang="fr">Demander un devis</span><span data-lang="en">Get a quote</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Thibault Motais <span>Media</span></div>
+  <div class="footer-copy">© 2026 Thibault Motais Media</div>
+  <div class="footer-links">
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/contact">Contact</a>
+    <a href="/admin" style="color:var(--muted2);font-size:10px">Admin</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px';
+  setTimeout(() => { ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
+});
+
+// Nav scroll
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60));
+
+// Mobile menu
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+// Active nav
+document.querySelector('.nav-links a[href="/portfolio"]').classList.add('active-page');
+
+// Language
+let currentLang = 'fr';
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('tmm-lang', lang);
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+}
+
+// Portfolio tabs
+let currentTab = 'portraits';
+function setTab(cat) {
+  currentTab = cat;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === cat));
+  document.querySelectorAll('.portfolio-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.cat === cat);
+  });
+}
+
+// Load photos
+async function loadPortfolio() {
+  try {
+    const res = await fetch('/api/content');
+    const content = await res.json();
+    const photos = content?.portfolioPhotos || [];
+    renderPortfolioPhotos(photos);
+  } catch(e) {
+    document.getElementById('portfolioGrid').innerHTML = '<div class="portfolio-empty"><span data-lang="fr">Aucune photo disponible.</span><span data-lang="en">No photos available.</span></div>';
+  }
+}
+
+function renderPortfolioPhotos(photos) {
+  const grid = document.getElementById('portfolioGrid');
+  if (!photos || !photos.length) {
+    grid.innerHTML = '<div class="portfolio-empty"><span data-lang="fr">Aucune photo. Ajoutez-en via le panel admin.</span><span data-lang="en">No photos. Add some via the admin panel.</span></div>';
+    return;
+  }
+  grid.innerHTML = photos.map(p => `
+    <div class="portfolio-item" data-cat="${p.category || 'portraits'}" data-format="${p.format || 'portrait'}">
+      <img src="${p.url}" alt="${p.label || ''}" loading="lazy">
+      <div class="portfolio-overlay"><span>${p.label || ''}</span></div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.portfolio-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
+  });
+  setTab('portraits');
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Init
+const savedLang = localStorage.getItem('tmm-lang') || 'fr';
+setLang(savedLang);
+loadPortfolio();
+</script>
+</body>
+</html>

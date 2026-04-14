@@ -11,6 +11,9 @@
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/admin/(.*)", "destination": "/admin/index.html" },
     { "source": "/success", "destination": "/success.html" },
-    { "source": "/galeries", "destination": "/galeries.html" }
+    { "source": "/galeries", "destination": "/galeries.html" },
+    { "source": "/portfolio", "destination": "/portfolio.html" },
+    { "source": "/tarifs", "destination": "/tarifs.html" },
+    { "source": "/contact", "destination": "/contact.html" }
   ]
 }

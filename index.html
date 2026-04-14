@@ -28,7 +28,7 @@ nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); paddin
 .nav-logo span { color: var(--gold); }
 .nav-links { display: flex; gap: 28px; align-items: center; }
 .nav-links a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 400; }
-.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover, .nav-links a.active-page { color: var(--gold); }
 .nav-lang { display: flex; gap: 4px; margin-left: 8px; }
 .nav-lang button { background: none; border: none; cursor: pointer; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'Outfit', sans-serif; padding: 2px 6px; transition: color 0.2s; }
 .nav-lang button.active { color: var(--gold); }
@@ -71,72 +71,11 @@ section { position: relative; z-index: 2; }
 .about-img-wrap { position: relative; aspect-ratio: 3/4; overflow: hidden; }
 .about-img-wrap::before { content: ''; position: absolute; top: -16px; left: -16px; right: 16px; bottom: 16px; border: 1px solid var(--gold-line); z-index: 0; }
 .about-img-placeholder { width: 100%; height: 100%; background: var(--bg3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--muted); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; position: relative; z-index: 1; }
-.about-img-placeholder svg { width: 40px; height: 40px; opacity: 0.3; }
 .about-text p { font-size: 14px; color: var(--muted); line-height: 1.9; margin-bottom: 20px; }
 .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 40px; }
 .stat { background: var(--bg3); padding: 20px 16px; text-align: center; }
 .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--gold); font-weight: 300; display: block; }
 .stat-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-
-/* PORTFOLIO */
-#portfolio { padding: 120px 0; }
-.portfolio-tabs { display: flex; gap: 2px; margin-bottom: 48px; border-bottom: 1px solid var(--border); }
-.tab-btn { background: none; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 12px 20px; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s; }
-.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
-.tab-btn:hover:not(.active) { color: var(--text); }
-.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
-@media(max-width:768px) { .portfolio-grid { grid-template-columns: repeat(2,1fr); } }
-.portfolio-item { aspect-ratio: 4/5; overflow: hidden; position: relative; background: var(--bg3); cursor: pointer; display: none; }
-.portfolio-item.active { display: block; }
-/* Dynamic formats */
-.portfolio-item.active[data-format="portrait"]  { aspect-ratio: 4/5; grid-column: span 1; }
-.portfolio-item.active[data-format="landscape"] { aspect-ratio: 5/4; grid-column: span 2; }
-.portfolio-item.active[data-format="square"]    { aspect-ratio: 1/1; grid-column: span 1; }
-.portfolio-item.active[data-format="wide"]      { aspect-ratio: 16/9; grid-column: span 3; }
-@media(max-width:768px) {
-  .portfolio-item.active[data-format="landscape"],
-  .portfolio-item.active[data-format="wide"] { grid-column: span 2; aspect-ratio: 5/4; }
-}
-.portfolio-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--muted2); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; transition: background 0.3s; }
-.portfolio-item:hover .portfolio-placeholder { background: var(--bg4); }
-.portfolio-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; display: block; }
-.portfolio-item:hover img { transform: scale(1.04); }
-.portfolio-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; padding: 20px; opacity: 0; transition: opacity 0.3s; }
-.portfolio-item:hover .portfolio-overlay { opacity: 1; }
-.portfolio-overlay span { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-
-/* PRICING */
-#pricing { padding: 120px 0; background: var(--bg2); }
-.pricing-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
-@media(max-width:640px) { .pricing-cols { grid-template-columns: 1fr; } }
-.pricing-col-header { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); padding-bottom: 10px; margin-bottom: 0; border-bottom: 1px solid var(--border); }
-.pricing-note-small { font-size: 11px; color: var(--muted); font-style: italic; padding: 6px 0 4px; }
-.price-cat { background: var(--bg3); padding: 5px 10px; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
-.price-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 10px; font-size: 13px; transition: background 0.15s; }
-.price-row:nth-child(odd) { background: var(--bg3); }
-.price-row:nth-child(even) { background: var(--bg4); }
-.price-row:hover { background: #222; }
-.price-row .pl { color: var(--text); }
-.price-row .pr { color: var(--gold); font-weight: 500; white-space: nowrap; margin-left: 16px; }
-.combined-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
-@media(max-width:600px) { .combined-grid { grid-template-columns: 1fr; } }
-.combined-cell { background: var(--bg3); padding: 14px; transition: background 0.15s; }
-.combined-cell:nth-child(even) { background: var(--bg4); }
-.combined-cell:hover { background: #1e1e1e; }
-.cc-name { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 3px; }
-.cc-detail { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-.cc-price { font-size: 15px; font-weight: 500; color: var(--gold); }
-.options-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-bottom: 24px; }
-@media(max-width:600px) { .options-grid { grid-template-columns: repeat(2,1fr); } }
-.opt-cell { background: var(--bg3); padding: 12px 14px; }
-.opt-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
-.opt-val { font-size: 18px; font-weight: 500; color: var(--gold); }
-.inclus-strip { background: var(--bg3); padding: 20px 24px; border-left: 2px solid var(--gold); }
-.inclus-strip-title { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
-.inclus-strip-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px 32px; }
-@media(max-width:500px) { .inclus-strip-grid { grid-template-columns: 1fr; } }
-.inclus-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--muted); }
-.inclus-item::before { content: '•'; color: var(--gold); flex-shrink: 0; }
 
 /* GALLERIES */
 #galleries { padding: 120px 0; }
@@ -154,7 +93,6 @@ section { position: relative; z-index: 2; }
 .gallery-card:hover .gallery-card-arrow { opacity: 1; transform: translateX(4px); }
 .gallery-empty { text-align: center; padding: 48px; color: var(--muted); font-size: 13px; font-style: italic; grid-column: 1/-1; }
 
-
 /* TESTIMONIALS */
 #testimonials { padding: 120px 0; }
 .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
@@ -165,35 +103,6 @@ section { position: relative; z-index: 2; }
 .testimonial-text { font-size: 13.5px; color: var(--text); line-height: 1.8; margin-bottom: 24px; font-style: italic; position: relative; z-index: 1; }
 .testimonial-author { font-size: 11px; color: var(--gold); letter-spacing: 0.1em; font-weight: 500; }
 .testimonial-role { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-/* CONTACT */
-#contact { padding: 120px 0; background: var(--bg2); }
-.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; }
-@media(max-width:768px) { .contact-grid { grid-template-columns: 1fr; gap: 48px; } }
-.contact-info p { font-size: 14px; color: var(--muted); line-height: 1.9; margin-bottom: 36px; }
-.contact-details { display: flex; flex-direction: column; gap: 16px; margin-bottom: 36px; }
-.contact-detail { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--text); }
-.contact-detail-icon { width: 36px; height: 36px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); }
-.contact-detail a { color: var(--text); text-decoration: none; transition: color 0.2s; }
-.contact-detail a:hover { color: var(--gold); }
-.contact-social { display: flex; gap: 12px; }
-.social-link { width: 40px; height: 40px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; transition: all 0.2s; }
-.social-link:hover { border-color: var(--gold); color: var(--gold); }
-.contact-form { display: flex; flex-direction: column; gap: 16px; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media(max-width:480px) { .form-row { grid-template-columns: 1fr; } }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-group label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-.form-group input, .form-group select, .form-group textarea { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 12px 14px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 300; outline: none; transition: border-color 0.2s; width: 100%; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
-.form-group textarea { resize: vertical; min-height: 120px; }
-.form-calendly { background: var(--bg3); border: 1px solid var(--border); padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-decoration: none; transition: border-color 0.2s; color: var(--text); }
-.form-calendly:hover { border-color: var(--gold); }
-.form-calendly-text { font-size: 12px; color: var(--muted); }
-.form-calendly-text strong { display: block; color: var(--text); font-weight: 400; margin-bottom: 2px; }
-.form-submit { background: var(--gold); border: none; color: var(--bg); padding: 14px 36px; font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: background 0.2s; align-self: flex-start; }
-.form-submit:hover { background: #dabb80; }
-.form-note { font-size: 11px; color: var(--muted); font-style: italic; }
 
 /* FOOTER */
 footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -231,13 +140,13 @@ body.lang-en [data-lang="en"] { display: block; }
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">Thibault Motais <span>Media</span></a>
+  <a href="/" class="nav-logo">Thibault Motais <span>Media</span></a>
   <div class="nav-links" id="navLinks">
-    <a href="#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#pricing"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
-    <a href="#galleries"><span data-lang="fr">Galeries</span><span data-lang="en">Galleries</span></a>
-    <a href="#contact">Contact</a>
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/tarifs"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
+    <a href="/galeries"><span data-lang="fr">Galeries</span><span data-lang="en">Galleries</span></a>
+    <a href="/contact">Contact</a>
     <div class="nav-lang">
       <button class="active" onclick="setLang('fr')" id="btnFr">FR</button>
       <button onclick="setLang('en')" id="btnEn">EN</button>
@@ -253,12 +162,12 @@ body.lang-en [data-lang="en"] { display: block; }
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-eyebrow"><span data-lang="fr">Photographe & Vidéaste — Montréal</span><span data-lang="en">Photographer & Videographer — Montreal</span></div>
-    <h1 class="hero-title" id="heroTitle"><span data-lang="fr">L'image<br>qui <em>parle.</em></span><span data-lang="en">The image<br>that <em>speaks.</em></span></h1>
-    <p class="hero-subtitle" id="heroSub"><span data-lang="fr">Portraits, événements, sport & contenu corporatif</span><span data-lang="en">Portraits, events, sport & corporate content</span></p>
+    <h1 class="hero-title"><span data-lang="fr">L'image<br>qui <em>parle.</em></span><span data-lang="en">The image<br>that <em>speaks.</em></span></h1>
+    <p class="hero-subtitle"><span data-lang="fr">Portraits, événements, sport & contenu corporatif</span><span data-lang="en">Portraits, events, sport & corporate content</span></p>
     <p class="hero-desc"><span data-lang="fr">Photographe et vidéaste professionnel basé à Montréal. Contenu visuel sur mesure pour particuliers, entreprises et événements.</span><span data-lang="en">Professional photographer and videographer based in Montreal. Custom visual content for individuals, businesses and events.</span></p>
     <div class="hero-ctas">
-      <a href="#portfolio" class="btn-primary"><span data-lang="fr">Voir le portfolio</span><span data-lang="en">View portfolio</span></a>
-      <a href="#contact" class="btn-ghost"><span data-lang="fr">Demander un devis</span><span data-lang="en">Get a quote</span></a>
+      <a href="/portfolio" class="btn-primary"><span data-lang="fr">Voir le portfolio</span><span data-lang="en">View portfolio</span></a>
+      <a href="/contact" class="btn-ghost"><span data-lang="fr">Demander un devis</span><span data-lang="en">Get a quote</span></a>
     </div>
   </div>
   <div class="hero-scroll"><span data-lang="fr">Défiler</span><span data-lang="en">Scroll</span></div>
@@ -269,7 +178,8 @@ body.lang-en [data-lang="en"] { display: block; }
   <div class="container">
     <div class="about-grid">
       <div class="about-img-wrap reveal">
-        <img src="/images/about.jpg" alt="Thibault Motais" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;"><div class="about-img-placeholder" style="display:none">
+        <img src="/images/about.jpg" alt="Thibault Motais" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;">
+        <div class="about-img-placeholder" style="display:none">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span data-lang="fr">Votre photo ici</span><span data-lang="en">Your photo here</span>
         </div>
@@ -293,88 +203,6 @@ body.lang-en [data-lang="en"] { display: block; }
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Portfolio</span>
-      <h2 class="section-title"><span data-lang="fr">Le travail<br><em>parle de lui-même</em></span><span data-lang="en">The work<br><em>speaks for itself</em></span></h2>
-    </div>
-    <div class="portfolio-tabs reveal">
-      <button class="tab-btn active" onclick="setTab('portraits')" data-tab="portraits"><span data-lang="fr">Portraits</span><span data-lang="en">Portraits</span></button>
-      <button class="tab-btn" onclick="setTab('events')" data-tab="events"><span data-lang="fr">Événements</span><span data-lang="en">Events</span></button>
-      <button class="tab-btn" onclick="setTab('sport')" data-tab="sport">Sport</button>
-      <button class="tab-btn" onclick="setTab('nature')" data-tab="nature"><span data-lang="fr">Nature</span><span data-lang="en">Nature</span></button>
-    </div>
-    <div class="portfolio-grid" id="portfolioGrid"></div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></span>
-      <h2 class="section-title"><span data-lang="fr">Transparent,<br><em>sans surprise</em></span><span data-lang="en">Transparent,<br><em>no surprises</em></span></h2>
-    </div>
-    <div class="pricing-cols reveal">
-      <div>
-        <div class="pricing-col-header"><span data-lang="fr">Photographie</span><span data-lang="en">Photography</span></div>
-        <p class="pricing-note-small"><span data-lang="fr">Galerie Pictime HD incluse</span><span data-lang="en">HD Pictime gallery included</span></p>
-        <div class="price-cat"><span data-lang="fr">Portraits</span><span data-lang="en">Portraits</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Portrait solo — 1h</span><span data-lang="en">Solo portrait — 1h</span></span><span class="pr">200 $</span></div>
-        <div class="price-row"><span class="pl">Headshot Pro — 2h</span><span class="pr">350 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Headshot Premium — droits inclus</span><span data-lang="en">Headshot Premium — rights incl.</span></span><span class="pr">550 $</span></div>
-        <div class="price-cat"><span data-lang="fr">Événements</span><span data-lang="en">Events</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Événement — 3h</span><span data-lang="en">Event — 3h</span></span><span class="pr">500 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Événement — 5h</span><span data-lang="en">Event — 5h</span></span><span class="pr">800 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Journée complète</span><span data-lang="en">Full day</span></span><span class="pr">1 200 $</span></div>
-        <div class="price-cat">Sport</div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Match sportif</span><span data-lang="en">Sports match</span></span><span class="pr">450 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Tournoi journée</span><span data-lang="en">Day tournament</span></span><span class="pr">850 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Saison — 5 matchs</span><span data-lang="en">Season — 5 games</span></span><span class="pr">1 500 $</span></div>
-      </div>
-      <div>
-        <div class="pricing-col-header"><span data-lang="fr">Vidéographie</span><span data-lang="en">Videography</span></div>
-        <p class="pricing-note-small"><span data-lang="fr">Montage inclus — livraison 10-14 jours</span><span data-lang="en">Editing included — 10-14 day delivery</span></p>
-        <div class="price-row"><span class="pl">Reel — 30-60 sec</span><span class="pr">350 $</span></div>
-        <div class="price-row"><span class="pl">Pack 3 Reels</span><span class="pr">800 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Abonnement 4 Reels/mois</span><span data-lang="en">4 Reels/month subscription</span></span><span class="pr">900 $/mois</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Recap événement — 1-2 min</span><span data-lang="en">Event recap — 1-2 min</span></span><span class="pr">500 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Recap complet — 3-5 min</span><span data-lang="en">Full recap — 3-5 min</span></span><span class="pr">900 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Vidéo corporative — 5 min</span><span data-lang="en">Corporate video — 5 min</span></span><span class="pr">1 600 $</span></div>
-        <div class="price-row"><span class="pl"><span data-lang="fr">Témoignage client</span><span data-lang="en">Client testimonial</span></span><span class="pr">600 $</span></div>
-      </div>
-    </div>
-    <div class="reveal" style="margin-bottom:24px">
-      <div class="pricing-col-header" style="margin-bottom:0"><span data-lang="fr">Packages Combinés</span><span data-lang="en">Combined Packages</span></div>
-      <div class="combined-grid">
-        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Événement Essentiel</span><span data-lang="en">Essential Event</span></div><div class="cc-detail">5h photo + 1 Reel</div><div class="cc-price">1 000 $</div></div>
-        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Événement Standard</span><span data-lang="en">Standard Event</span></div><div class="cc-detail"><span data-lang="fr">Journée + vidéo 3 min</span><span data-lang="en">Full day + 3 min video</span></div><div class="cc-price">1 800 $</div></div>
-        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Événement Premium</span><span data-lang="en">Premium Event</span></div><div class="cc-detail"><span data-lang="fr">Journée + vidéo 5 min + droits</span><span data-lang="en">Full day + 5 min + rights</span></div><div class="cc-price">2 500 $</div></div>
-        <div class="combined-cell"><div class="cc-name"><span data-lang="fr">Saison Sport</span><span data-lang="en">Sport Season</span></div><div class="cc-detail">5 <span data-lang="fr">matchs</span><span data-lang="en">games</span> + 5 Reels</div><div class="cc-price">2 500 $</div></div>
-        <div class="combined-cell"><div class="cc-name">PME Starter/mois</div><div class="cc-detail">2h photo + 2 Reels</div><div class="cc-price">700 $/mois</div></div>
-        <div class="combined-cell"><div class="cc-name">PME Growth/mois</div><div class="cc-detail">4h + 4 Reels + 1 <span data-lang="fr">vidéo</span><span data-lang="en">video</span></div><div class="cc-price">1 400 $/mois</div></div>
-      </div>
-    </div>
-    <div class="options-grid reveal">
-      <div class="opt-cell"><div class="opt-label"><span data-lang="fr">Express 48h</span><span data-lang="en">Express 48h</span></div><div class="opt-val">+100 $</div></div>
-      <div class="opt-cell"><div class="opt-label"><span data-lang="fr">Droits commerciaux</span><span data-lang="en">Commercial rights</span></div><div class="opt-val">+200 $</div></div>
-      <div class="opt-cell"><div class="opt-label"><span data-lang="fr">Acompte signature</span><span data-lang="en">Deposit at signing</span></div><div class="opt-val">50%</div></div>
-      <div class="opt-cell"><div class="opt-label">Taxes</div><div class="opt-val"><span data-lang="fr">En sus</span><span data-lang="en">Extra</span></div></div>
-    </div>
-    <div class="inclus-strip reveal">
-      <div class="inclus-strip-title"><span data-lang="fr">Inclus dans chaque projet</span><span data-lang="en">Included in every project</span></div>
-      <div class="inclus-strip-grid">
-        <div class="inclus-item"><span data-lang="fr">Galerie Pictime privée par lien sécurisé</span><span data-lang="en">Private Pictime gallery via secure link</span></div>
-        <div class="inclus-item"><span data-lang="fr">Photos HD téléchargeables sans limite</span><span data-lang="en">Unlimited HD photo downloads</span></div>
-        <div class="inclus-item"><span data-lang="fr">Retouche professionnelle incluse</span><span data-lang="en">Professional editing included</span></div>
-        <div class="inclus-item"><span data-lang="fr">Acompte 50% — solde à la livraison</span><span data-lang="en">50% deposit — balance on delivery</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- GALLERIES -->
 <section id="galleries">
   <div class="container">
@@ -387,7 +215,6 @@ body.lang-en [data-lang="en"] { display: block; }
     </div>
   </div>
 </section>
-
 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
@@ -402,9 +229,7 @@ body.lang-en [data-lang="en"] { display: block; }
         <span data-lang="en">Leave a review</span>
       </button>
     </div>
-    <div class="testimonials-grid reveal" id="testimonialsGrid">
-      <!-- Loaded dynamically -->
-    </div>
+    <div class="testimonials-grid reveal" id="testimonialsGrid"></div>
   </div>
 </section>
 
@@ -414,7 +239,7 @@ body.lang-en [data-lang="en"] { display: block; }
     <button onclick="closeTestimonialModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;">×</button>
     <div style="font-size:10px;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;" data-lang="fr">Votre témoignage</div>
     <div style="font-size:10px;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;" data-lang="en">Your review</div>
-    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text-bright);font-weight:400;margin-bottom:28px;">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--white);font-weight:400;margin-bottom:28px;">
       <span data-lang="fr">Partagez votre expérience</span>
       <span data-lang="en">Share your experience</span>
     </h3>
@@ -425,89 +250,19 @@ body.lang-en [data-lang="en"] { display: block; }
       <textarea id="tTextEn" rows="4" placeholder="Testimonial in English (optional)..." style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;resize:vertical;width:100%;box-sizing:border-box;"></textarea>
       <div id="tMsg" style="font-size:12px;min-height:18px;"></div>
       <button onclick="submitTestimonial()" id="tSubmitBtn" style="background:var(--gold);color:var(--bg);border:none;padding:14px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:opacity 0.2s;">
-        <span data-lang="fr">Envoyer</span>
-        <span data-lang="en">Submit</span>
+        <span data-lang="fr">Envoyer</span><span data-lang="en">Submit</span>
       </button>
     </div>
   </div>
 </div>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Contact</span>
-      <h2 class="section-title"><span data-lang="fr">Parlons de<br><em>votre projet</em></span><span data-lang="en">Let's talk about<br><em>your project</em></span></h2>
-    </div>
-    <div class="contact-grid">
-      <div class="reveal">
-        <p data-lang="fr">Devis personnalisé sous 24h. Pas de frais cachés, pas de mauvaises surprises. Juste du bon travail livré à temps.</p>
-        <p data-lang="en">Custom quote within 24h. No hidden fees, no surprises. Just good work delivered on time.</p>
-        <div class="contact-details" style="margin-top:24px">
-          <div class="contact-detail">
-            <div class="contact-detail-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <a href="mailto:contact@thibaultmotais.com">contact@thibaultmotais.com</a>
-          </div>
-          <div class="contact-detail">
-            <div class="contact-detail-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
-            <a href="tel:+14384053763">+1 (438) 405-3763</a>
-          </div>
-          <div class="contact-detail">
-            <div class="contact-detail-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <span>Montréal, Québec</span>
-          </div>
-        </div>
-        <div class="contact-social">
-          <a href="https://instagram.com/thibaultmotaismedia" target="_blank" class="social-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="https://linkedin.com/in/thibaultmotais" target="_blank" class="social-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-        </div>
-      </div>
-      <form class="contact-form reveal reveal-delay-1" id="contactForm">
-        <div class="form-row">
-          <div class="form-group"><label><span data-lang="fr">Prénom</span><span data-lang="en">First name</span></label><input type="text" id="firstName" required></div>
-          <div class="form-group"><label><span data-lang="fr">Nom</span><span data-lang="en">Last name</span></label><input type="text" id="lastName" required></div>
-        </div>
-        <div class="form-group"><label>Email</label><input type="email" id="email" required></div>
-        <div class="form-group">
-          <label><span data-lang="fr">Type de projet</span><span data-lang="en">Project type</span></label>
-          <select id="projectType">
-            <option data-lang="fr">Portraits / Headshots</option><option data-lang="en">Portraits / Headshots</option>
-            <option data-lang="fr">Événement corporatif</option><option data-lang="en">Corporate event</option>
-            <option data-lang="fr">Sport / Action</option><option data-lang="en">Sport / Action</option>
-            <option data-lang="fr">Contenu réseaux sociaux</option><option data-lang="en">Social media content</option>
-            <option data-lang="fr">Vidéographie</option><option data-lang="en">Videography</option>
-            <option data-lang="fr">Autre</option><option data-lang="en">Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label><span data-lang="fr">Message</span><span data-lang="en">Message</span></label>
-          <textarea id="message" placeholder="..." required></textarea>
-        </div>
-        <a href="https://calendly.com/thibaultmotais" target="_blank" class="form-calendly">
-          <div class="form-calendly-text">
-            <strong><span data-lang="fr">Préférez planifier un appel ?</span><span data-lang="en">Prefer to schedule a call?</span></strong>
-            <span data-lang="fr">Réservez directement dans mon calendrier</span><span data-lang="en">Book directly in my calendar</span>
-          </div>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C8A96E" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        </a>
-        <button type="submit" class="form-submit"><span data-lang="fr">Envoyer</span><span data-lang="en">Send</span></button>
-        <p class="form-note"><span data-lang="fr">Réponse garantie sous 24h.</span><span data-lang="en">Response guaranteed within 24h.</span></p>
-      </form>
-    </div>
-  </div>
-</section>
-
 <footer>
   <div class="footer-logo">Thibault Motais <span>Media</span></div>
   <div class="footer-copy">© 2026 Thibault Motais Media</div>
   <div class="footer-links">
-    <a href="#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#contact">Contact</a>
+    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/contact">Contact</a>
     <a href="/admin" style="color:var(--muted2);font-size:10px">Admin</a>
   </div>
 </footer>
@@ -521,7 +276,7 @@ document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px';
   setTimeout(() => { ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px'; }, 80);
 });
-document.querySelectorAll('a,button,.portfolio-item').forEach(el => {
+document.querySelectorAll('a,button').forEach(el => {
   el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
   el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
 });
@@ -537,22 +292,28 @@ document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click
 let currentLang = 'fr';
 function setLang(lang) {
   currentLang = lang;
+  localStorage.setItem('tmm-lang', lang);
   document.body.classList.toggle('lang-en', lang === 'en');
   document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
   document.getElementById('btnEn').classList.toggle('active', lang === 'en');
   renderGalleries(window._galleries || []);
-    renderTestimonials(window._testimonials || []);
+  renderTestimonials(window._testimonials || []);
 }
 
-// Portfolio tabs
-function setTab(cat) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === cat));
-  document.querySelectorAll('.portfolio-item').forEach(item => {
-    item.classList.toggle('active', item.dataset.cat === cat);
-  });
+// Toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// Load data from API
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Load data
 async function loadSiteData() {
   try {
     const res = await fetch('/api/content');
@@ -560,35 +321,13 @@ async function loadSiteData() {
     window._galleries = content?.galleries || [];
     window._testimonials = content?.testimonials || [];
     applyContent(content);
-    renderGalleries(content?.galleries || []);
-    renderTestimonials(content?.testimonials || []);
-    if (content?.portfolioPhotos?.length) {
-      renderPortfolioPhotos(content.portfolioPhotos);
-    }
+    renderGalleries(window._galleries);
+    renderTestimonials(window._testimonials);
   } catch(e) {
-    console.log('API not available, using defaults');
+    console.log('API not available');
     renderTestimonials(getDefaultTestimonials());
     renderGalleries([]);
   }
-}
-
-function renderPortfolioPhotos(photos) {
-  const grid = document.getElementById('portfolioGrid');
-  if (!photos || !photos.length) {
-    grid.innerHTML = '';
-    return;
-  }
-  grid.innerHTML = photos.map(p => `
-    <div class="portfolio-item" data-cat="${p.category || 'portraits'}" data-format="${p.format || 'portrait'}">
-      <img src="${p.url}" alt="${p.label || ''}" loading="lazy">
-      <div class="portfolio-overlay"><span>${p.label || ''}</span></div>
-    </div>
-  `).join('');
-  grid.querySelectorAll('.portfolio-item').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
-    el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
-  });
-  setTab('portraits');
 }
 
 function applyContent(content) {
@@ -628,13 +367,9 @@ function renderTestimonials(testimonials) {
   `).join('');
 }
 
-
 function getDefaultTestimonials() {
-  return [
-    { textFr: "Ajoutez vos témoignages via le panel admin.", textEn: "Add your testimonials via the admin panel.", name: "—", role: "" }
-  ];
+  return [{ textFr: "Ajoutez vos témoignages via le panel admin.", textEn: "Add your testimonials via the admin panel.", name: "—", role: "" }];
 }
-
 
 function openTestimonialModal() {
   const m = document.getElementById('testimonialModal');
@@ -644,7 +379,6 @@ function openTestimonialModal() {
   document.getElementById('tTextFr').value = '';
   document.getElementById('tTextEn').value = '';
   document.getElementById('tMsg').textContent = '';
-  document.getElementById('tMsg').style.color = '';
 }
 function closeTestimonialModal() {
   document.getElementById('testimonialModal').style.display = 'none';
@@ -664,73 +398,24 @@ async function submitTestimonial() {
     msg.style.color = '#e07070';
     return;
   }
-  btn.style.opacity = '0.5';
-  btn.disabled = true;
+  btn.style.opacity = '0.5'; btn.disabled = true;
   try {
-    const r = await fetch('/api/testimonial', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, role, textFr, textEn }),
-    });
+    const r = await fetch('/api/testimonial', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, role, textFr, textEn }) });
     if (r.ok) {
       msg.textContent = currentLang === 'en' ? 'Thank you! Your review will appear after validation.' : 'Merci ! Votre témoignage sera publié après validation.';
       msg.style.color = 'var(--gold)';
       setTimeout(closeTestimonialModal, 3000);
-    } else {
-      throw new Error();
-    }
+    } else throw new Error();
   } catch {
     msg.textContent = currentLang === 'en' ? 'An error occurred. Try again.' : 'Une erreur est survenue. Réessayez.';
     msg.style.color = '#e07070';
   }
-  btn.style.opacity = '1';
-  btn.disabled = false;
+  btn.style.opacity = '1'; btn.disabled = false;
 }
-
-// Contact form
-document.getElementById('contactForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = e.target.querySelector('.form-submit');
-  btn.disabled = true;
-  btn.textContent = currentLang === 'fr' ? 'Envoi...' : 'Sending...';
-  try {
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        projectType: document.getElementById('projectType').value,
-        message: document.getElementById('message').value,
-      }),
-    });
-    if (res.ok) {
-      showToast(currentLang === 'fr' ? 'Message envoyé ! Réponse sous 24h.' : 'Message sent! Reply within 24h.');
-      e.target.reset();
-    } else {
-      showToast('Erreur. Réessayez ou écrivez directement.');
-    }
-  } catch(err) {
-    showToast('Erreur réseau. Réessayez.');
-  }
-  btn.disabled = false;
-  btn.innerHTML = currentLang === 'fr' ? '<span data-lang="fr">Envoyer</span><span data-lang="en">Send</span>' : 'Send';
-});
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // Init
+const savedLang = localStorage.getItem('tmm-lang') || 'fr';
+setLang(savedLang);
 loadSiteData();
 </script>
 </body>
