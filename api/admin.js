@@ -11,12 +11,13 @@ export const config = {
 export default async function handler(req, res) {
   if (applyCors(req, res)) return;
 
+  if (!process.env.ADMIN_PASSWORD || !process.env.SESSION_SECRET) {
+    return fail(res, 500, 'Configuration manquante');
+  }
+
   const { action } = req.query;
 
   if (action === 'login' && req.method === 'POST') {
-    if (!process.env.ADMIN_PASSWORD || !process.env.SESSION_SECRET) {
-      return fail(res, 500, 'Configuration manquante');
-    }
     const ip = clientIp(req);
     if (!(await rateLimit('login', ip, 5, 15 * 60))) {
       return fail(res, 429, 'Trop de tentatives. Réessayez dans 15 minutes.');
@@ -25,13 +26,13 @@ export default async function handler(req, res) {
     if (password && timingSafeEqualStr(password, process.env.ADMIN_PASSWORD)) {
       return res.status(200).json({ success: true, token: createToken(process.env.SESSION_SECRET) });
     }
-    return res.status(401).json({ error: 'Mot de passe incorrect' });
+    return fail(res, 401, 'Mot de passe incorrect');
   }
 
   const auth = req.headers.authorization || '';
-  const token = auth.replace('Bearer ', '');
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
   if (!verifyToken(token, process.env.SESSION_SECRET)) {
-    return res.status(401).json({ error: 'Non autorisé' });
+    return fail(res, 401, 'Non autorisé');
   }
 
   try {
