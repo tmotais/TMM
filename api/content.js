@@ -1,20 +1,8 @@
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  if (req.method === 'OPTIONS') return res.status(200).end();
+import { applyCors, fail } from './_lib/http.mjs';
+import { kvGet } from './_lib/kv.mjs';
 
-  async function kvGet(key) {
-    const r = await fetch(`${process.env.KV_REST_API_URL}/get/${key}`, {
-      headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` },
-    });
-    const data = await r.json();
-    if (!data.result) return null;
-    const parsed = JSON.parse(data.result);
-    if (typeof parsed === 'string') {
-      try { return JSON.parse(parsed); } catch { return parsed; }
-    }
-    return parsed;
-  }
+export default async function handler(req, res) {
+  if (applyCors(req, res, 'GET, OPTIONS')) return;
 
   try {
     const [content, photos, galleries] = await Promise.all([
@@ -33,7 +21,7 @@ export default async function handler(req, res) {
       galleries: galleries || [],
     });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return fail(res, 500, 'Erreur serveur', err);
   }
 }
 

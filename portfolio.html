@@ -173,6 +173,7 @@ body.lang-en [data-lang="en"] { display: block; }
 
 <div class="toast" id="toast"></div>
 
+<script src="/site-utils.js"></script>
 <script>
 // Cursor
 const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
@@ -235,8 +236,8 @@ function renderPortfolioPhotos(photos) {
   }
   grid.innerHTML = photos.map(p => `
     <div class="portfolio-item" data-cat="${p.category || 'portraits'}" data-format="${p.format || 'portrait'}">
-      <img src="${p.url}" alt="${p.label || ''}" loading="lazy">
-      <div class="portfolio-overlay"><span>${p.label || ''}</span></div>
+      <img src="${safeUrl(p.url)}" alt="${esc(p.label)}" loading="lazy">
+      <div class="portfolio-overlay"><span>${esc(p.label)}</span></div>
     </div>
   `).join('');
   grid.querySelectorAll('.portfolio-item').forEach(el => {

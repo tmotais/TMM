@@ -130,6 +130,7 @@ input::placeholder { color: var(--muted2); letter-spacing: 0.05em; font-size: 13
   <p class="hint">Vous n'avez pas reçu de code ? <a href="/#contact">Contactez-moi</a></p>
 </main>
 
+<script src="/site-utils.js"></script>
 <script>
 // Cursor
 const cursor = document.getElementById('cursor');
@@ -166,7 +167,7 @@ async function lookup() {
     document.getElementById('msg-loading').classList.remove('show');
     document.getElementById('btn-access').disabled = false;
 
-    if (data.error || !data.url) {
+    if (data.error || !safeUrl(data.url)) {
       showError('Code introuvable. Vérifiez votre email de livraison.');
       return;
     }
@@ -175,7 +176,7 @@ async function lookup() {
     document.getElementById('card-form').style.display = 'none';
     document.getElementById('result-name').textContent = data.name || 'Votre galerie';
     document.getElementById('result-date').textContent = data.date || '';
-    document.getElementById('result-link').href = data.url;
+    document.getElementById('result-link').href = safeUrl(data.url);
     document.getElementById('card-result').classList.add('show');
     document.querySelector('.hint').style.display = 'none';
 

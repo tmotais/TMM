@@ -40,7 +40,13 @@ export default async function handler(req, res) {
       case 'get-content': return res.json(await kvGet('site-content') || getDefaultContent());
       case 'save-content': await kvSet('site-content', req.body); return res.json({ success: true });
       case 'get-galleries': return res.json(await kvGet('galleries') || []);
-      case 'save-galleries': await kvSet('galleries', req.body); return res.json({ success: true });
+      case 'save-galleries': {
+        const galleries = (Array.isArray(req.body) ? req.body : []).filter(
+          g => !g.url || /^https:\/\//i.test(String(g.url))
+        );
+        await kvSet('galleries', galleries);
+        return res.json({ success: true });
+      }
       case 'get-products': return res.json(await kvGet('products') || getDefaultProducts());
       case 'save-products': await kvSet('products', req.body); return res.json({ success: true });
       case 'get-pending-testimonials': return res.json(await kvGet('testimonials-pending') || []);
