@@ -14,6 +14,9 @@ export default async function handler(req, res) {
   const { action } = req.query;
 
   if (action === 'login' && req.method === 'POST') {
+    if (!process.env.ADMIN_PASSWORD || !process.env.SESSION_SECRET) {
+      return fail(res, 500, 'Configuration manquante');
+    }
     const ip = clientIp(req);
     if (!(await rateLimit('login', ip, 5, 15 * 60))) {
       return fail(res, 429, 'Trop de tentatives. Réessayez dans 15 minutes.');
