@@ -3,378 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thibault Motais — Photographe & Vidéaste | Montréal</title>
-<meta name="description" content="Photographe et vidéaste professionnel basé à Montréal. Portraits, événements, sport, contenu corporatif.">
+<title>Thibault Motais — Photographe | Montréal</title>
+<meta name="description" content="Photographe professionnel à Montréal. Portraits, événements, sport. Galeries livrées en 5-7 jours, devis sous 24 h.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-:root {
-  --gold: #C8A96E; --gold-dim: rgba(200,169,110,0.15); --gold-line: rgba(200,169,110,0.3);
-  --bg: #080808; --bg2: #0f0f0f; --bg3: #141414; --bg4: #1a1a1a;
-  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --muted2: #3a3a3a; --white: #f0ece2;
-}
-body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; cursor: none; }
-.cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, width 0.2s, height 0.2s; }
-.cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid var(--gold-line); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.15s ease; }
-body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.4; }
-
-/* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; transition: background 0.4s, padding 0.4s; }
-nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); padding: 16px 48px; border-bottom: 1px solid var(--border); }
-.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
-.nav-logo span { color: var(--gold); }
-.nav-links { display: flex; gap: 28px; align-items: center; }
-.nav-links a { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 400; }
-.nav-links a:hover, .nav-links a.active-page { color: var(--gold); }
-.nav-lang { display: flex; gap: 4px; margin-left: 8px; }
-.nav-lang button { background: none; border: none; cursor: pointer; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'Outfit', sans-serif; padding: 2px 6px; transition: color 0.2s; }
-.nav-lang button.active { color: var(--gold); }
-.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-.nav-hamburger span { width: 24px; height: 1px; background: var(--text); display: block; }
-@media(max-width:768px) { nav { padding: 20px 24px; } nav.scrolled { padding: 14px 24px; } .nav-links { display: none; position: fixed; inset: 0; background: var(--bg); flex-direction: column; justify-content: center; align-items: center; gap: 32px; } .nav-links.open { display: flex; } .nav-hamburger { display: flex; z-index: 101; } }
-
-/* HERO */
-#hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 0 48px; }
-.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(200,169,110,0.06) 0%, transparent 70%), radial-gradient(ellipse 50% 80% at 20% 80%, rgba(200,169,110,0.03) 0%, transparent 60%); }
-.hero-content { position: relative; z-index: 2; max-width: 680px; animation: heroFadeIn 1.2s ease both; }
-.hero-eyebrow { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
-.hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--gold); display: block; }
-.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 8vw, 96px); font-weight: 300; line-height: 0.95; color: var(--white); margin-bottom: 8px; }
-.hero-title em { font-style: italic; color: var(--gold); }
-.hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 3vw, 28px); font-weight: 300; font-style: italic; color: var(--muted); margin-bottom: 32px; }
-.hero-desc { font-size: 14px; color: var(--muted); max-width: 440px; margin-bottom: 48px; line-height: 1.8; }
-.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
-.btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--gold); color: var(--bg); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; font-weight: 500; transition: background 0.2s, transform 0.2s; font-family: 'Outfit', sans-serif; }
-.btn-primary:hover { background: #dabb80; transform: translateY(-1px); }
-.btn-ghost { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; border: 1px solid var(--border); color: var(--text); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; font-weight: 400; transition: border-color 0.2s, color 0.2s; font-family: 'Outfit', sans-serif; }
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-.hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); animation: scrollBob 2s ease-in-out infinite; }
-.hero-scroll::after { content: ''; width: 1px; height: 48px; background: linear-gradient(to bottom, var(--gold), transparent); }
-@media(max-width:768px) { #hero { padding: 0 24px; } }
-
-/* SECTIONS */
-section { position: relative; z-index: 2; }
-.section-header { margin-bottom: 56px; }
-.section-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block; }
-.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 300; color: var(--white); line-height: 1.1; }
-.section-title em { font-style: italic; color: var(--gold); }
-.container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
-@media(max-width:768px) { .container { padding: 0 24px; } }
-
-/* ABOUT */
-#about { padding: 120px 0; background: var(--bg2); }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-@media(max-width:768px) { .about-grid { grid-template-columns: 1fr; gap: 48px; } }
-.about-img-wrap { position: relative; aspect-ratio: 3/4; overflow: hidden; }
-.about-img-wrap::before { content: ''; position: absolute; top: -16px; left: -16px; right: 16px; bottom: 16px; border: 1px solid var(--gold-line); z-index: 0; }
-.about-img-placeholder { width: 100%; height: 100%; background: var(--bg3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--muted); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; position: relative; z-index: 1; }
-.about-text p { font-size: 14px; color: var(--muted); line-height: 1.9; margin-bottom: 20px; }
-.about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-top: 40px; }
-.stat { background: var(--bg3); padding: 20px 16px; text-align: center; }
-.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--gold); font-weight: 300; display: block; }
-.stat-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-
-/* GALLERIES */
-#galleries { padding: 120px 0; }
-.galleries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
-@media(max-width:768px) { .galleries-grid { grid-template-columns: repeat(2,1fr); } }
-@media(max-width:480px) { .galleries-grid { grid-template-columns: 1fr; } }
-.gallery-card { background: var(--bg3); padding: 28px 24px; text-decoration: none; display: block; border: 1px solid transparent; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; }
-.gallery-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s; }
-.gallery-card:hover { border-color: var(--border); background: var(--bg4); }
-.gallery-card:hover::before { transform: scaleX(1); }
-.gallery-card-icon { color: var(--gold); margin-bottom: 16px; opacity: 0.6; }
-.gallery-card-title { font-size: 14px; color: var(--white); margin-bottom: 6px; font-weight: 400; }
-.gallery-card-date { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; }
-.gallery-card-arrow { position: absolute; top: 28px; right: 24px; color: var(--gold); opacity: 0; transition: opacity 0.2s, transform 0.2s; }
-.gallery-card:hover .gallery-card-arrow { opacity: 1; transform: translateX(4px); }
-.gallery-empty { text-align: center; padding: 48px; color: var(--muted); font-size: 13px; font-style: italic; grid-column: 1/-1; }
-
-/* TESTIMONIALS */
-#testimonials { padding: 120px 0; }
-.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
-@media(max-width:768px) { .testimonials-grid { grid-template-columns: 1fr; } }
-.testimonial-card { background: var(--bg2); padding: 36px 32px; position: relative; transition: background 0.2s; }
-.testimonial-card:hover { background: var(--bg3); }
-.testimonial-card::before { content: '\201C'; font-family: 'Cormorant Garamond', serif; font-size: 80px; color: var(--gold); opacity: 0.2; position: absolute; top: 12px; left: 24px; line-height: 1; }
-.testimonial-text { font-size: 13.5px; color: var(--text); line-height: 1.8; margin-bottom: 24px; font-style: italic; position: relative; z-index: 1; }
-.testimonial-author { font-size: 11px; color: var(--gold); letter-spacing: 0.1em; font-weight: 500; }
-.testimonial-role { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-/* FOOTER */
-footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-@media(max-width:768px) { footer { padding: 32px 24px; flex-direction: column; text-align: center; } }
-.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--white); letter-spacing: 0.06em; }
-.footer-logo span { color: var(--gold); }
-.footer-copy { font-size: 11px; color: var(--muted); }
-.footer-links { display: flex; gap: 24px; }
-.footer-links a { font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: var(--gold); }
-
-/* LANG */
-[data-lang="en"] { display: none; }
-body.lang-en [data-lang="fr"] { display: none; }
-body.lang-en [data-lang="en"] { display: block; }
-
-/* SCROLL ANIM */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.visible { opacity: 1; transform: none; }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-
-/* TOAST */
-.toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg2); border: 1px solid var(--gold); padding: 14px 24px; font-size: 13px; color: var(--gold); transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 1000; }
-.toast.show { transform: translateY(0); opacity: 1; }
-
-@keyframes heroFadeIn { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
-@keyframes scrollBob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<script src="/site.js" defer></script>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- NAV -->
-<nav id="navbar">
-  <a href="/" class="nav-logo">Thibault Motais <span>Media</span></a>
-  <div class="nav-links" id="navLinks">
-    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
-    <a href="/portfolio">Portfolio</a>
+<nav class="site">
+  <a href="/" class="logo">Thibault Motais</a>
+  <div class="links" id="navLinks">
+    <a href="/portfolio"><span data-lang="fr">Travail</span><span data-lang="en">Work</span></a>
     <a href="/tarifs"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
     <a href="/galeries"><span data-lang="fr">Galeries</span><span data-lang="en">Galleries</span></a>
     <a href="/contact">Contact</a>
-    <div class="nav-lang">
-      <button class="active" onclick="setLang('fr')" id="btnFr">FR</button>
-      <button onclick="setLang('en')" id="btnEn">EN</button>
-    </div>
+    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
   </div>
-  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
+  <button class="nav-burger" onclick="toggleMenu()">☰</button>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow"><span data-lang="fr">Photographe & Vidéaste — Montréal</span><span data-lang="en">Photographer & Videographer — Montreal</span></div>
-    <h1 class="hero-title"><span data-lang="fr">L'image<br>qui <em>parle.</em></span><span data-lang="en">The image<br>that <em>speaks.</em></span></h1>
-    <p class="hero-subtitle"><span data-lang="fr">Portraits, événements, sport & contenu corporatif</span><span data-lang="en">Portraits, events, sport & corporate content</span></p>
-    <p class="hero-desc"><span data-lang="fr">Photographe et vidéaste professionnel basé à Montréal. Contenu visuel sur mesure pour particuliers, entreprises et événements.</span><span data-lang="en">Professional photographer and videographer based in Montreal. Custom visual content for individuals, businesses and events.</span></p>
-    <div class="hero-ctas">
-      <a href="/portfolio" class="btn-primary"><span data-lang="fr">Voir le portfolio</span><span data-lang="en">View portfolio</span></a>
-      <a href="/contact" class="btn-ghost"><span data-lang="fr">Demander un devis</span><span data-lang="en">Get a quote</span></a>
-    </div>
-  </div>
-  <div class="hero-scroll"><span data-lang="fr">Défiler</span><span data-lang="en">Scroll</span></div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-img-wrap reveal">
-        <img src="https://hojqqhgknflvsco2.public.blob.vercel-storage.com/about.jpg" alt="Thibault Motais" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;">
-        <div class="about-img-placeholder" style="display:none">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span data-lang="fr">Votre photo ici</span><span data-lang="en">Your photo here</span>
-        </div>
-      </div>
-      <div class="about-text">
-        <div class="section-header reveal">
-          <span class="section-eyebrow"><span data-lang="fr">À propos</span><span data-lang="en">About</span></span>
-          <h2 class="section-title"><span data-lang="fr">Capturer ce qui<br><em>compte vraiment</em></span><span data-lang="en">Capturing what<br><em>truly matters</em></span></h2>
-        </div>
-        <p class="reveal reveal-delay-1" id="aboutText1Fr" data-lang="fr">Basé à Montréal, je travaille avec des individus, des entreprises et des organisations pour créer du contenu visuel qui raconte une histoire.</p>
-        <p class="reveal reveal-delay-1" id="aboutText1En" data-lang="en">Based in Montreal, I work with individuals, businesses and organizations to create visual content that tells a story.</p>
-        <p class="reveal reveal-delay-2" id="aboutText2Fr" data-lang="fr">Sony A1 II. Galerie Pictime. Livraison 48-72h. Devis sous 24h.</p>
-        <p class="reveal reveal-delay-2" id="aboutText2En" data-lang="en">Sony A1 II. Pictime gallery. 48-72h delivery. Quote within 24h.</p>
-        <div class="about-stats reveal">
-          <div class="stat"><span class="stat-num">48h</span><span class="stat-label"><span data-lang="fr">Livraison</span><span data-lang="en">Delivery</span></span></div>
-          <div class="stat"><span class="stat-num">24h</span><span class="stat-label"><span data-lang="fr">Devis</span><span data-lang="en">Quote</span></span></div>
-          <div class="stat"><span class="stat-num">A1 II</span><span class="stat-label">Sony</span></div>
-        </div>
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-left">
+      <h1><span data-lang="fr">Photographe<br>à Montréal.</span><span data-lang="en">Photographer<br>in Montreal.</span></h1>
+      <p><span data-lang="fr">Portraits, événements, sport. Galeries livrées en 5-7 jours, devis sous 24 h.</span><span data-lang="en">Portraits, events, sport. Galleries delivered in 5-7 days, quote within 24 h.</span></p>
+      <div class="ctas">
+        <a href="/portfolio" class="cta-solid"><span data-lang="fr">Voir le travail</span><span data-lang="en">View work</span></a>
+        <a href="/contact" class="cta-ghost"><span data-lang="fr">Me contacter</span><span data-lang="en">Get in touch</span></a>
       </div>
     </div>
-  </div>
-</section>
+    <div class="hero-right" id="heroPhoto"></div>
+  </section>
+</div>
 
-<!-- GALLERIES -->
-<section id="galleries">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow"><span data-lang="fr">Galeries clients</span><span data-lang="en">Client galleries</span></span>
-      <h2 class="section-title"><span data-lang="fr">Accédez à<br><em>votre galerie</em></span><span data-lang="en">Access<br><em>your gallery</em></span></h2>
-    </div>
-    <div class="galleries-grid reveal" id="galleriesGrid">
-      <div class="gallery-empty"><span data-lang="fr">Les galeries seront affichées ici.</span><span data-lang="en">Galleries will appear here.</span></div>
-    </div>
-  </div>
-</section>
+<div class="bande">
+  <div class="wrap"><div class="inner">
+    <div class="cell"><b><span data-lang="fr">5-7 j</span><span data-lang="en">5-7 d</span></b><span data-lang="fr">Livraison des galeries</span><span data-lang="en">Gallery delivery</span></div>
+    <div class="cell"><b>24 h</b><span data-lang="fr">Réponse aux devis</span><span data-lang="en">Quote response</span></div>
+    <div class="cell"><b>Montréal</b><span data-lang="fr">Déplacements partout au Québec</span><span data-lang="en">Available across Quebec</span></div>
+  </div></div>
+</div>
 
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="container">
-    <div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;">
+<div class="wrap">
+  <section class="section reveal">
+    <div class="section-head">
+      <h2><span data-lang="fr">Travail récent</span><span data-lang="en">Recent work</span></h2>
+      <a href="/portfolio"><span data-lang="fr">Tout le portfolio →</span><span data-lang="en">Full portfolio →</span></a>
+    </div>
+    <div class="work-grid" id="workGrid"></div>
+  </section>
+
+  <section class="section reveal" style="padding-top:0;" id="quoteSection" hidden>
+    <div class="quote">
+      <blockquote id="quoteText"></blockquote>
+      <div class="who" id="quoteWho"></div>
+      <div style="margin-top:26px;"><a href="#" onclick="openTestimonialModal();return false;" style="font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);text-decoration:none;padding-bottom:2px;"><span data-lang="fr">Laisser un témoignage</span><span data-lang="en">Leave a review</span></a></div>
+    </div>
+  </section>
+
+  <section class="section reveal" style="padding-top:0;">
+    <div class="galerie-acces">
       <div>
-        <span class="section-eyebrow"><span data-lang="fr">Témoignages</span><span data-lang="en">Testimonials</span></span>
-        <h2 class="section-title"><span data-lang="fr">Ce que disent<br><em>les clients</em></span><span data-lang="en">What<br><em>clients say</em></span></h2>
+        <h3><span data-lang="fr">Votre galerie privée</span><span data-lang="en">Your private gallery</span></h3>
+        <p><span data-lang="fr">Entrez le code reçu après votre séance pour accéder à vos photos.</span><span data-lang="en">Enter the code you received after your session to access your photos.</span></p>
       </div>
-      <button onclick="openTestimonialModal()" style="background:transparent;border:1px solid var(--gold);color:var(--gold);padding:10px 22px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;font-family:inherit;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--bg)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">
-        <span data-lang="fr">Laisser un témoignage</span>
-        <span data-lang="en">Leave a review</span>
-      </button>
+      <div class="code-input">
+        <input id="galleryCode" placeholder="CODE-2026" onkeydown="if(event.key==='Enter')openGallery()">
+        <button class="cta-solid" onclick="openGallery()"><span data-lang="fr">Accéder</span><span data-lang="en">Access</span></button>
+      </div>
     </div>
-    <div class="testimonials-grid reveal" id="testimonialsGrid"></div>
-  </div>
-</section>
+  </section>
+</div>
 
-<!-- TESTIMONIAL MODAL -->
-<div id="testimonialModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9000;align-items:center;justify-content:center;">
-  <div style="background:var(--bg2);border:1px solid var(--border);padding:40px;max-width:520px;width:90%;position:relative;">
-    <button onclick="closeTestimonialModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;">×</button>
-    <div style="font-size:10px;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;" data-lang="fr">Votre témoignage</div>
-    <div style="font-size:10px;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;" data-lang="en">Your review</div>
-    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--white);font-weight:400;margin-bottom:28px;">
+<!-- Modal témoignage -->
+<div id="testimonialModal" class="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeTestimonialModal()">×</button>
+    <div style="font-size:10px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;" data-lang="fr">Votre témoignage</div>
+    <div style="font-size:10px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;" data-lang="en">Your review</div>
+    <h3 style="font-family:Fraunces,Georgia,serif;font-size:24px;color:var(--text);font-weight:500;margin-bottom:28px;">
       <span data-lang="fr">Partagez votre expérience</span>
       <span data-lang="en">Share your experience</span>
     </h3>
     <div style="display:flex;flex-direction:column;gap:14px;">
-      <input id="tName" type="text" placeholder="Votre nom / Your name" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;width:100%;box-sizing:border-box;">
-      <input id="tRole" type="text" placeholder="Titre, Organisation (optionnel)" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;width:100%;box-sizing:border-box;">
-      <textarea id="tTextFr" rows="4" placeholder="Témoignage en français..." style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;resize:vertical;width:100%;box-sizing:border-box;"></textarea>
-      <textarea id="tTextEn" rows="4" placeholder="Testimonial in English (optional)..." style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-size:13px;font-family:inherit;outline:none;resize:vertical;width:100%;box-sizing:border-box;"></textarea>
+      <input id="tName" type="text" placeholder="Votre nom / Your name">
+      <input id="tRole" type="text" placeholder="Titre, Organisation (optionnel)">
+      <textarea id="tTextFr" rows="4" placeholder="Témoignage en français..."></textarea>
+      <textarea id="tTextEn" rows="4" placeholder="Testimonial in English (optional)..."></textarea>
       <div id="tMsg" style="font-size:12px;min-height:18px;"></div>
-      <button onclick="submitTestimonial()" id="tSubmitBtn" style="background:var(--gold);color:var(--bg);border:none;padding:14px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:opacity 0.2s;">
+      <button onclick="submitTestimonial()" id="tSubmitBtn" class="cta-solid" style="width:100%;border-radius:4px;">
         <span data-lang="fr">Envoyer</span><span data-lang="en">Submit</span>
       </button>
     </div>
   </div>
 </div>
 
-<footer>
-  <div class="footer-logo">Thibault Motais <span>Media</span></div>
-  <div class="footer-copy">© 2026 Thibault Motais Media</div>
-  <div class="footer-links">
-    <a href="/#about"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
-    <a href="/portfolio">Portfolio</a>
-    <a href="/contact">Contact</a>
-    <a href="/admin" style="color:var(--muted2);font-size:10px">Admin</a>
-  </div>
+<footer class="site">
+  <span>Thibault Motais — <span data-lang="fr">Photographe, Montréal</span><span data-lang="en">Photographer, Montreal</span></span>
+  <span><a href="/contact">Contact</a> · <a href="/admin">Admin</a></span>
 </footer>
 
 <div class="toast" id="toast"></div>
 
-<script src="/site-utils.js"></script>
 <script>
-// Cursor
-const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px';
-  setTimeout(() => { ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px'; }, 80);
-});
-document.querySelectorAll('a,button').forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; });
-  el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; });
-});
+const CATEGORY_LABELS = { portraits: {fr:'Portraits',en:'Portraits'}, sport: {fr:'Sport',en:'Sport'},
+  events: {fr:'Événements',en:'Events'}, nature: {fr:'Nature',en:'Nature'} };
+let _content = null;
 
-// Nav scroll
-window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60));
-
-// Mobile menu
-function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
-document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
-
-// Language
-let currentLang = 'fr';
-function setLang(lang) {
-  currentLang = lang;
-  localStorage.setItem('tmm-lang', lang);
-  document.body.classList.toggle('lang-en', lang === 'en');
-  document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
-  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
-  renderGalleries(window._galleries || []);
-  renderTestimonials(window._testimonials || []);
-}
-
-// Toast
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Load data
 async function loadSiteData() {
   try {
     const res = await fetch('/api/content');
-    const content = await res.json();
-    window._galleries = content?.galleries || [];
-    window._testimonials = content?.testimonials || [];
-    applyContent(content);
-    renderGalleries(window._galleries);
-    renderTestimonials(window._testimonials);
-  } catch(e) {
-    console.log('API not available');
-    renderTestimonials(getDefaultTestimonials());
-    renderGalleries([]);
-  }
+    _content = await res.json();
+  } catch (e) { _content = { portfolioPhotos: [], testimonials: [] }; }
+  renderHero(); renderWork(); renderQuote();
 }
 
-function applyContent(content) {
-  if (!content) return;
-  if (content.about?.fr?.text1) document.getElementById('aboutText1Fr').textContent = content.about.fr.text1;
-  if (content.about?.en?.text1) document.getElementById('aboutText1En').textContent = content.about.en.text1;
-  if (content.about?.fr?.text2) document.getElementById('aboutText2Fr').textContent = content.about.fr.text2;
-  if (content.about?.en?.text2) document.getElementById('aboutText2En').textContent = content.about.en.text2;
+function renderHero() {
+  const photos = _content.portfolioPhotos || [];
+  const p = photos.find(p => p.category === 'portraits') || photos[0];
+  if (p) document.getElementById('heroPhoto').innerHTML =
+    `<img ${imgAttrs(p.url, '(max-width: 900px) 100vw, 55vw')} alt="">`;
 }
 
-function renderGalleries(galleries) {
-  const el = document.getElementById('galleriesGrid');
-  if (!galleries || !galleries.length) {
-    el.innerHTML = `<div class="gallery-empty"><span data-lang="fr">Les galeries seront affichées ici.</span><span data-lang="en">Galleries will appear here.</span></div>`;
-    return;
-  }
-  el.innerHTML = galleries.filter(g => safeUrl(g.url)).map(g => `
-    <a href="${safeUrl(g.url)}" target="_blank" rel="noopener" class="gallery-card">
-      <div class="gallery-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-      <div class="gallery-card-title">${esc(g.name || g.title) || 'Galerie'}</div>
-      <div class="gallery-card-date">${esc(g.date)}</div>
-      <div class="gallery-card-arrow">→</div>
-    </a>
-  `).join('');
+function renderWork() {
+  const photos = _content.portfolioPhotos || [];
+  const cats = ['portraits', 'sport', 'events'];
+  document.getElementById('workGrid').innerHTML = cats.map(cat => {
+    const p = photos.find(x => x.category === cat);
+    if (!p) return '';
+    const lbl = CATEGORY_LABELS[cat] || { fr: cat, en: cat };
+    return `<a href="/portfolio#${esc(cat)}">
+      <img ${imgAttrs(p.url)} alt="${esc(lbl.fr)}">
+      <span class="tag"><span data-lang="fr">${esc(lbl.fr)}</span><span data-lang="en">${esc(lbl.en)}</span></span>
+    </a>`;
+  }).join('');
 }
 
-function renderTestimonials(testimonials) {
-  const el = document.getElementById('testimonialsGrid');
-  if (!testimonials || !testimonials.length) { el.innerHTML = ''; return; }
+function renderQuote() {
+  const ts = _content.testimonials || [];
+  if (!ts.length) return;
+  const t = ts[0];
   const isEn = currentLang === 'en';
-  el.innerHTML = testimonials.map(t => `
-    <div class="testimonial-card">
-      <p class="testimonial-text">${esc(isEn ? (t.textEn || t.textFr) : (t.textFr || t.textEn))}</p>
-      <div class="testimonial-author">${esc(t.name)}</div>
-      <div class="testimonial-role">${esc(t.role)}</div>
-    </div>
-  `).join('');
+  document.getElementById('quoteText').textContent = `« ${(isEn ? (t.textEn || t.textFr) : (t.textFr || t.textEn))} »`;
+  document.getElementById('quoteWho').innerHTML = `<b>${esc(t.name)}</b>${t.role ? ' — ' + esc(t.role) : ''}`;
+  document.getElementById('quoteSection').hidden = false;
 }
 
-function getDefaultTestimonials() {
-  return [{ textFr: "Ajoutez vos témoignages via le panel admin.", textEn: "Add your testimonials via the admin panel.", name: "—", role: "" }];
+async function openGallery() {
+  const code = document.getElementById('galleryCode').value.trim();
+  if (!code) return;
+  try {
+    const r = await fetch(`/api/gallery?code=${encodeURIComponent(code)}`);
+    if (!r.ok) { showToast(currentLang === 'en' ? 'Code not found' : 'Code introuvable'); return; }
+    const g = await r.json();
+    const url = safeUrl(g.url);
+    if (url) window.open(url, '_blank', 'noopener');
+  } catch { showToast('Erreur, réessayez'); }
 }
+
+document.addEventListener('langchange', () => { if (_content) renderQuote(); });
+document.addEventListener('DOMContentLoaded', loadSiteData);
 
 function openTestimonialModal() {
   const m = document.getElementById('testimonialModal');
-  m.style.display = 'flex';
+  m.classList.add('open');
   document.getElementById('tName').value = '';
   document.getElementById('tRole').value = '';
   document.getElementById('tTextFr').value = '';
@@ -382,7 +177,7 @@ function openTestimonialModal() {
   document.getElementById('tMsg').textContent = '';
 }
 function closeTestimonialModal() {
-  document.getElementById('testimonialModal').style.display = 'none';
+  document.getElementById('testimonialModal').classList.remove('open');
 }
 document.getElementById('testimonialModal').addEventListener('click', function(e) {
   if (e.target === this) closeTestimonialModal();
@@ -404,7 +199,7 @@ async function submitTestimonial() {
     const r = await fetch('/api/testimonial', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, role, textFr, textEn }) });
     if (r.ok) {
       msg.textContent = currentLang === 'en' ? 'Thank you! Your review will appear after validation.' : 'Merci ! Votre témoignage sera publié après validation.';
-      msg.style.color = 'var(--gold)';
+      msg.style.color = 'var(--muted)';
       setTimeout(closeTestimonialModal, 3000);
     } else throw new Error();
   } catch {
@@ -413,11 +208,6 @@ async function submitTestimonial() {
   }
   btn.style.opacity = '1'; btn.disabled = false;
 }
-
-// Init
-const savedLang = localStorage.getItem('tmm-lang') || 'fr';
-setLang(savedLang);
-loadSiteData();
 </script>
 </body>
 </html>
