@@ -1,4 +1,8 @@
 {
+  "images": {
+    "sizes": [480, 960, 1600],
+    "remotePatterns": [{ "protocol": "https", "hostname": "*.public.blob.vercel-storage.com" }]
+  },
   "redirects": [
     {
       "source": "/",
@@ -15,7 +19,7 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-        { "key": "Content-Security-Policy-Report-Only", "value": "default-src 'self'; img-src 'self' data: https://*.public.blob.vercel-storage.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'" }
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data: https://*.public.blob.vercel-storage.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'" }
       ]
     }
   ],

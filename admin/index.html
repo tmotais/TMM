@@ -4,14 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin — Thibault Motais Media</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --gold: #C8A96E; --bg: #080808; --bg2: #0f0f0f; --bg3: #141414;
-  --border: #232323; --text: #d4d0c8; --muted: #5a5a5a; --red: #c0392b; --green: #27ae60;
+  --gold: #ececec; --gold-dim: rgba(236,236,236,0.1); --gold-line: #3a3a3e;
+  --bg: #0c0c0d; --bg2: #141416; --bg3: #1a1a1c; --bg4: #202023;
+  --border: #232326; --text: #ececec; --muted: #9a9a9a; --white: #ffffff;
+  --red: #c0392b; --green: #27ae60;
 }
-body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; min-height: 100vh; }
+body { background: var(--bg); color: var(--text); font-family: Inter, sans-serif; font-weight: 300; min-height: 100vh; }
 
 /* LOGIN */
 #loginScreen {
@@ -27,14 +31,14 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 }
 .login-box input {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
-  color: var(--text); padding: 12px 14px; font-family: 'Outfit', sans-serif;
+  color: var(--text); padding: 12px 14px; font-family: Inter, sans-serif;
   font-size: 14px; outline: none; margin-bottom: 12px;
   transition: border-color 0.2s;
 }
 .login-box input:focus { border-color: var(--gold); }
 .login-box button {
   width: 100%; background: var(--gold); border: none; color: #000;
-  padding: 12px; font-family: 'Outfit', sans-serif; font-size: 11px;
+  padding: 12px; font-family: Inter, sans-serif; font-size: 11px;
   letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
   cursor: pointer; transition: background 0.2s;
 }
@@ -51,7 +55,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 .admin-logo { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
 .admin-nav { display: flex; gap: 4px; }
 .admin-tab {
-  background: none; border: none; cursor: pointer; font-family: 'Outfit', sans-serif;
+  background: none; border: none; cursor: pointer; font-family: Inter, sans-serif;
   font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
   color: var(--muted); padding: 8px 16px; transition: color 0.2s;
   border-bottom: 2px solid transparent;
@@ -60,7 +64,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 .admin-tab:hover:not(.active) { color: var(--text); }
 .logout-btn {
   background: none; border: 1px solid var(--border); cursor: pointer;
-  font-family: 'Outfit', sans-serif; font-size: 10px; letter-spacing: 0.15em;
+  font-family: Inter, sans-serif; font-size: 10px; letter-spacing: 0.15em;
   text-transform: uppercase; color: var(--muted); padding: 6px 14px;
   transition: all 0.2s;
 }
@@ -81,7 +85,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 .field-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: block; }
 .field-group input, .field-group textarea {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
-  color: var(--text); padding: 10px 12px; font-family: 'Outfit', sans-serif;
+  color: var(--text); padding: 10px 12px; font-family: Inter, sans-serif;
   font-size: 13px; outline: none; transition: border-color 0.2s;
 }
 .field-group input:focus, .field-group textarea:focus { border-color: var(--gold); }
@@ -92,7 +96,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 
 .save-btn {
   background: var(--gold); border: none; color: #000;
-  padding: 10px 28px; font-family: 'Outfit', sans-serif;
+  padding: 10px 28px; font-family: Inter, sans-serif;
   font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
   font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 8px;
 }
@@ -114,7 +118,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 }
 .gallery-item input {
   background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-  padding: 6px 10px; font-family: 'Outfit', sans-serif; font-size: 12px;
+  padding: 6px 10px; font-family: Inter, sans-serif; font-size: 12px;
   outline: none; flex: 1; transition: border-color 0.2s;
 }
 .gallery-item input:focus { border-color: var(--gold); }
@@ -122,14 +126,14 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 .del-btn {
   background: none; border: 1px solid var(--border); color: var(--muted);
   padding: 6px 10px; cursor: pointer; font-size: 12px; transition: all 0.2s;
-  font-family: 'Outfit', sans-serif;
+  font-family: Inter, sans-serif;
 }
 .del-btn:hover { border-color: var(--red); color: var(--red); }
 .add-btn {
   background: none; border: 1px solid var(--border); color: var(--text);
   padding: 8px 20px; cursor: pointer; font-size: 10px;
   letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s;
-  font-family: 'Outfit', sans-serif;
+  font-family: Inter, sans-serif;
 }
 .add-btn:hover { border-color: var(--gold); color: var(--gold); }
 
@@ -139,7 +143,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 }
 .photos-toolbar select {
   background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-  padding: 8px 12px; font-family: 'Outfit', sans-serif; font-size: 12px;
+  padding: 8px 12px; font-family: Inter, sans-serif; font-size: 12px;
   outline: none; cursor: pointer;
 }
 .photos-toolbar select:focus { border-color: var(--gold); }
@@ -155,13 +159,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 .photo-card-body { padding: 10px 12px; }
 .photo-card-body input {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
-  color: var(--text); padding: 5px 8px; font-family: 'Outfit', sans-serif;
+  color: var(--text); padding: 5px 8px; font-family: Inter, sans-serif;
   font-size: 11px; outline: none; margin-bottom: 6px;
 }
 .photo-card-body input:focus { border-color: var(--gold); }
 .photo-card-body select {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
-  color: var(--text); padding: 5px 8px; font-family: 'Outfit', sans-serif;
+  color: var(--text); padding: 5px 8px; font-family: Inter, sans-serif;
   font-size: 11px; outline: none; cursor: pointer;
 }
 .photo-delete-btn {
@@ -169,7 +173,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
   background: rgba(0,0,0,0.7); border: 1px solid var(--red); color: var(--red);
   width: 28px; height: 28px; cursor: pointer; font-size: 14px;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s; font-family: 'Outfit', sans-serif;
+  transition: all 0.2s; font-family: Inter, sans-serif;
 }
 .photo-delete-btn:hover { background: var(--red); color: #fff; }
 .photo-empty {
@@ -329,7 +333,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 
 <div class="toast" id="toast"></div>
 
-<script src="/site-utils.js"></script>
+<script src="/site.js"></script>
 <script>
 let token = localStorage.getItem('tmm-admin-token');
 let content = {}, galleries = [], portfolioPhotos = [];
