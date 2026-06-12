@@ -43,7 +43,7 @@ check "témoignage 2001 chars -> 400" 400 "$code"
 hdrs=$(curl -sI "$BASE_URL/")
 echo "$hdrs" | grep -qi 'x-frame-options: DENY';        check "X-Frame-Options" 0 $?
 echo "$hdrs" | grep -qi 'x-content-type-options';       check "X-Content-Type-Options" 0 $?
-echo "$hdrs" | grep -qi 'content-security-policy-report-only'; check "CSP report-only" 0 $?
+echo "$hdrs" | grep -qiE 'content-security-policy:'; check "CSP bloquante" 0 $?
 
 # 8. Contenu public toujours accessible
 code=$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/api/content")
