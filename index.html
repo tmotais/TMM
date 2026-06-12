@@ -269,6 +269,7 @@ body.lang-en [data-lang="en"] { display: block; }
 
 <div class="toast" id="toast"></div>
 
+<script src="/site-utils.js"></script>
 <script>
 // Cursor
 const cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
@@ -344,11 +345,11 @@ function renderGalleries(galleries) {
     el.innerHTML = `<div class="gallery-empty"><span data-lang="fr">Les galeries seront affichées ici.</span><span data-lang="en">Galleries will appear here.</span></div>`;
     return;
   }
-  el.innerHTML = galleries.filter(g => g.url).map(g => `
-    <a href="${g.url}" target="_blank" class="gallery-card">
+  el.innerHTML = galleries.filter(g => safeUrl(g.url)).map(g => `
+    <a href="${safeUrl(g.url)}" target="_blank" rel="noopener" class="gallery-card">
       <div class="gallery-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-      <div class="gallery-card-title">${g.title || 'Galerie'}</div>
-      <div class="gallery-card-date">${g.date || ''}</div>
+      <div class="gallery-card-title">${esc(g.name || g.title) || 'Galerie'}</div>
+      <div class="gallery-card-date">${esc(g.date)}</div>
       <div class="gallery-card-arrow">→</div>
     </a>
   `).join('');
@@ -360,9 +361,9 @@ function renderTestimonials(testimonials) {
   const isEn = currentLang === 'en';
   el.innerHTML = testimonials.map(t => `
     <div class="testimonial-card">
-      <p class="testimonial-text">${isEn ? (t.textEn || t.textFr) : (t.textFr || t.textEn)}</p>
-      <div class="testimonial-author">${t.name || ''}</div>
-      <div class="testimonial-role">${t.role || ''}</div>
+      <p class="testimonial-text">${esc(isEn ? (t.textEn || t.textFr) : (t.textFr || t.textEn))}</p>
+      <div class="testimonial-author">${esc(t.name)}</div>
+      <div class="testimonial-role">${esc(t.role)}</div>
     </div>
   `).join('');
 }

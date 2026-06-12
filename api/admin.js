@@ -1,59 +1,38 @@
 import { put, del } from '@vercel/blob';
+import { applyCors, clientIp, fail } from './_lib/http.mjs';
+import { kvGet, kvSet } from './_lib/kv.mjs';
+import { rateLimit } from './_lib/ratelimit.mjs';
+import { createToken, verifyToken, timingSafeEqualStr } from './_lib/token.mjs';
 
 export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
-  },
+  api: { bodyParser: { sizeLimit: '10mb' } },
 };
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (applyCors(req, res)) return;
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (!process.env.ADMIN_PASSWORD || !process.env.SESSION_SECRET) {
+    return fail(res, 500, 'Configuration manquante');
+  }
 
   const { action } = req.query;
 
   if (action === 'login' && req.method === 'POST') {
-    const { password } = req.body;
-    if (password === process.env.ADMIN_PASSWORD) {
-      return res.status(200).json({ success: true, token: process.env.ADMIN_PASSWORD });
+    const ip = clientIp(req);
+    if (!(await rateLimit('login', ip, 5, 15 * 60))) {
+      return fail(res, 429, 'Trop de tentatives. Réessayez dans 15 minutes.');
     }
-    return res.status(401).json({ error: 'Mot de passe incorrect' });
+    const { password } = req.body || {};
+    if (password && timingSafeEqualStr(password, process.env.ADMIN_PASSWORD)) {
+      return res.status(200).json({ success: true, token: createToken(process.env.SESSION_SECRET) });
+    }
+    return fail(res, 401, 'Mot de passe incorrect');
   }
 
   const auth = req.headers.authorization || '';
-  const token = auth.replace('Bearer ', '');
-  if (token !== process.env.ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Non autorisé' });
-  }
-
-  async function kvGet(key) {
-    const r = await fetch(`${process.env.KV_REST_API_URL}/get/${key}`, {
-      headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` },
-    });
-    const data = await r.json();
-    if (!data.result) return null;
-    const parsed = JSON.parse(data.result);
-    // Handle double-encoded strings (legacy data)
-    if (typeof parsed === 'string') {
-      try { return JSON.parse(parsed); } catch { return parsed; }
-    }
-    return parsed;
-  }
-
-  async function kvSet(key, value) {
-    await fetch(`${process.env.KV_REST_API_URL}/set/${key}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(JSON.stringify(value)),
-    });
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+  if (!verifyToken(token, process.env.SESSION_SECRET)) {
+    return fail(res, 401, 'Non autorisé');
   }
 
   try {
@@ -61,7 +40,13 @@ export default async function handler(req, res) {
       case 'get-content': return res.json(await kvGet('site-content') || getDefaultContent());
       case 'save-content': await kvSet('site-content', req.body); return res.json({ success: true });
       case 'get-galleries': return res.json(await kvGet('galleries') || []);
-      case 'save-galleries': await kvSet('galleries', req.body); return res.json({ success: true });
+      case 'save-galleries': {
+        const galleries = (Array.isArray(req.body) ? req.body : []).filter(
+          g => !g.url || /^https:\/\//i.test(String(g.url))
+        );
+        await kvSet('galleries', galleries);
+        return res.json({ success: true });
+      }
       case 'get-products': return res.json(await kvGet('products') || getDefaultProducts());
       case 'save-products': await kvSet('products', req.body); return res.json({ success: true });
       case 'get-pending-testimonials': return res.json(await kvGet('testimonials-pending') || []);
@@ -142,7 +127,7 @@ export default async function handler(req, res) {
       default: return res.status(400).json({ error: 'Action inconnue' });
     }
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return fail(res, 500, 'Erreur serveur', err);
   }
 }
 

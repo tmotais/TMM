@@ -329,6 +329,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 
 <div class="toast" id="toast"></div>
 
+<script src="/site-utils.js"></script>
 <script>
 let token = localStorage.getItem('tmm-admin-token');
 let content = {}, galleries = [], portfolioPhotos = [];
@@ -401,13 +402,13 @@ async function loadPending() {
     html += pending.map(t => `
       <div style="border:1px solid var(--border);padding:24px;margin-bottom:12px;background:var(--bg3);">
         <div style="font-size:10px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">${new Date(t.submittedAt).toLocaleDateString('fr-CA', {year:'numeric',month:'long',day:'numeric'})}</div>
-        <div style="font-weight:500;font-size:14px;color:var(--text-bright);margin-bottom:2px;">${t.name}</div>
-        ${t.role ? `<div style="font-size:12px;color:var(--muted);margin-bottom:12px;">${t.role}</div>` : '<div style="margin-bottom:12px;"></div>'}
-        ${t.textFr ? `<div style="font-size:13px;color:var(--text);margin-bottom:6px;font-style:italic;"><span style="color:var(--muted);font-style:normal;font-size:11px;">FR</span> ${t.textFr}</div>` : ''}
-        ${t.textEn ? `<div style="font-size:13px;color:var(--text);margin-bottom:12px;font-style:italic;"><span style="color:var(--muted);font-style:normal;font-size:11px;">EN</span> ${t.textEn}</div>` : ''}
+        <div style="font-weight:500;font-size:14px;color:var(--text-bright);margin-bottom:2px;">${esc(t.name)}</div>
+        ${t.role ? `<div style="font-size:12px;color:var(--muted);margin-bottom:12px;">${esc(t.role)}</div>` : '<div style="margin-bottom:12px;"></div>'}
+        ${t.textFr ? `<div style="font-size:13px;color:var(--text);margin-bottom:6px;font-style:italic;"><span style="color:var(--muted);font-style:normal;font-size:11px;">FR</span> ${esc(t.textFr)}</div>` : ''}
+        ${t.textEn ? `<div style="font-size:13px;color:var(--text);margin-bottom:12px;font-style:italic;"><span style="color:var(--muted);font-style:normal;font-size:11px;">EN</span> ${esc(t.textEn)}</div>` : ''}
         <div style="display:flex;gap:10px;margin-top:16px;">
-          <button onclick="approveTestimonial('${t.id}')" style="background:var(--gold);color:var(--bg);border:none;padding:10px 20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;">✓ Publier</button>
-          <button onclick="rejectTestimonial('${t.id}')" style="background:transparent;border:1px solid #c05050;color:#c05050;padding:10px 20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;">✕ Refuser</button>
+          <button onclick="approveTestimonial('${esc(t.id)}')" style="background:var(--gold);color:var(--bg);border:none;padding:10px 20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;">✓ Publier</button>
+          <button onclick="rejectTestimonial('${esc(t.id)}')" style="background:transparent;border:1px solid #c05050;color:#c05050;padding:10px 20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;">✕ Refuser</button>
         </div>
       </div>
     `).join('');
@@ -422,8 +423,8 @@ async function loadPending() {
     html += published.map((t, i) => `
       <div style="border:1px solid var(--border);padding:20px 24px;margin-bottom:8px;background:var(--bg2);display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
         <div style="flex:1;">
-          <div style="font-weight:500;font-size:13px;color:var(--text-bright);">${t.name}${t.role ? `<span style="font-weight:400;color:var(--muted);font-size:12px;margin-left:8px;">${t.role}</span>` : ''}</div>
-          ${t.textFr ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic;">${t.textFr.substring(0,100)}${t.textFr.length > 100 ? '…' : ''}</div>` : ''}
+          <div style="font-weight:500;font-size:13px;color:var(--text-bright);">${esc(t.name)}${t.role ? `<span style="font-weight:400;color:var(--muted);font-size:12px;margin-left:8px;">${esc(t.role)}</span>` : ''}</div>
+          ${t.textFr ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic;">${esc(t.textFr.substring(0,100))}${t.textFr.length > 100 ? '…' : ''}</div>` : ''}
         </div>
         <button onclick="removePublishedTestimonial(${i})" style="background:transparent;border:1px solid #c05050;color:#c05050;padding:6px 14px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;">× Supprimer</button>
       </div>
@@ -489,10 +490,10 @@ function renderGalleries() {
   const el = document.getElementById('galleryList');
   el.innerHTML = galleries.map((g, i) => `
     <div class="gallery-item" style="flex-wrap:wrap;gap:8px;">
-      <input type="text" placeholder="Nom client (ex: Marie Dupont)" value="${g.name || g.title || ''}" oninput="galleries[${i}].name=this.value" style="flex:1;min-width:140px;">
-      <input type="text" placeholder="Code accès (ex: DUPONT-2026)" value="${g.code || ''}" oninput="galleries[${i}].code=this.value.toUpperCase();this.value=this.value.toUpperCase()" style="max-width:160px;">
-      <input type="text" placeholder="Date (ex: 8 mars 2026)" value="${g.date || ''}" oninput="galleries[${i}].date=this.value" style="max-width:140px;">
-      <input type="text" class="url" placeholder="Lien Pictime privé" value="${g.url || ''}" oninput="galleries[${i}].url=this.value" style="flex:2;min-width:200px;">
+      <input type="text" placeholder="Nom client (ex: Marie Dupont)" value="${esc(g.name || g.title || '')}" oninput="galleries[${i}].name=this.value" style="flex:1;min-width:140px;">
+      <input type="text" placeholder="Code accès (ex: DUPONT-2026)" value="${esc(g.code || '')}" oninput="galleries[${i}].code=this.value.toUpperCase();this.value=this.value.toUpperCase()" style="max-width:160px;">
+      <input type="text" placeholder="Date (ex: 8 mars 2026)" value="${esc(g.date || '')}" oninput="galleries[${i}].date=this.value" style="max-width:140px;">
+      <input type="text" class="url" placeholder="Lien Pictime privé" value="${esc(g.url || '')}" oninput="galleries[${i}].url=this.value" style="flex:2;min-width:200px;">
       <button class="del-btn" onclick="removeGallery(${i})">×</button>
     </div>
   `).join('');
@@ -526,11 +527,11 @@ function renderPhotoGrid() {
     return;
   }
   el.innerHTML = portfolioPhotos.map((p, i) => `
-    <div class="photo-card" data-id="${p.id}">
-      <img src="${p.url}" alt="${p.label || ''}" loading="lazy">
-      <button class="photo-delete-btn" onclick="deletePhoto('${p.id}')">×</button>
+    <div class="photo-card" data-id="${esc(p.id)}">
+      <img src="${safeUrl(p.url)}" alt="${esc(p.label)}" loading="lazy">
+      <button class="photo-delete-btn" onclick="deletePhoto('${esc(p.id)}')">×</button>
       <div class="photo-card-body">
-        <input type="text" placeholder="Légende" value="${p.label || ''}" oninput="portfolioPhotos[${i}].label=this.value">
+        <input type="text" placeholder="Légende" value="${esc(p.label)}" oninput="portfolioPhotos[${i}].label=this.value">
         <select onchange="portfolioPhotos[${i}].category=this.value">
           ${Object.entries(CAT_LABELS).map(([v, l]) => `<option value="${v}"${p.category===v?' selected':''}>${l}</option>`).join('')}
         </select>
